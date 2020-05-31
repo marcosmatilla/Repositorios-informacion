@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+	xmlns="http://java.sun.com/xml/ns/persistence/orm"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+	version="2.0">
+
+	<!-- Vehicle queries -->
+	<named-query name="Vehicle.findByPlate">
+		<query>select v from Vehicle v where v.plateNumber = ?1</query>
+	</named-query>
+
+	<!-- WorkOrder queries -->
+	<named-query name="WorkOrder.findByIds">
+		<query>select a from WorkOrder a where a.id in ?1</query>
+	</named-query>
+
+	<named-query name="WorkOrder.findByPlateNumber">
+		<query>select a from WorkOrder a where a.vehicle.plateNumber = ?1</query>
+	</named-query>
+
+	<named-query
+		name="WorkOrder.findCertifiedMechanicsByVehicleTypeId">
+		<query>select c from Certificate c where c.vehicleType.id = ?1</query>
+	</named-query>
+
+	<named-query name="WorkOrder.findCertifiedMechanics">
+		<query>select w.vehicle.vehicleType.id from WorkOrder w where w.id = ?1</query>
+	</named-query>
+
+	<named-query name="WorkOrder.findUnfinishedWorkOrders">
+		<query>select w from WorkOrder w where w.status = uo.ri.cws.domain.WorkOrder.WorkOrderStatus.ASSIGNED or w.status = uo.ri.cws.domain.WorkOrder.WorkOrderStatus.OPEN</query>
+	</named-query>
+
+	<named-query name="WorkOrder.findStatusById">
+		<query>select a.status from WorkOrder a where a.id = ?1</query>
+	</named-query>
+
+	<named-query name="WorkOrder.findVehicleById">
+		<query>select w from WorkOrder w where w.vehicle.id = ?1</query>
+	</named-query>
+
+	<named-query name="WorkOrder.findWorkOrderAtSameTime">
+		<query>select w from WorkOrder w where w.vehicle.id = ?1 and w.date = ?2</query>
+	</named-query>
+
+	<!-- PaymentMean queries -->
+	<named-query name="PaymentMean.findByInvoiceId">
+		<query>
+			select m 
+			from Invoice f 
+				join f.workOrders w 
+				join w.vehicle.client c 
+				join c.paymentMeans m 
+			where f.id = ?1
+		</query>
+	</named-query>
+
+	<!-- Mechanic queries -->
+	<named-query name="Mechanic.findByDni">
+		<query>
+			select m 
+			from Mechanic m 
+			where m.dni = ?1
+		</query>
+	</named-query>
+
+	<!-- Enrollment queries -->
+	<named-query name="Enrollment.findAllVehicleTypes">
+		<query> select v from VehicleType v </query>
+	</named-query>
+
+	<named-query name="Enrollment.findActiveCourses">
+		<query> select c from Course c <!-- where c.id in (select e.course.id from Enrollment e) --></query>
+	</named-query>
+
+	<named-query name="Enrollment.FindAttendanceInCourse">
+		<query>select e from Enrollment e where e.course.id = ?1</query>
+	</named-query>
+
+	<named-query
+		name="Enrollment.FindEnrollForCourseAndMechanic">
+		<query>select e from Enrollment e where e.course.id = ?1 and e.mechanic.id = ?2</query>
+	</named-query>
+	<!-- Invoice queries -->
+	<named-query name="Invoice.findByNumber">
+		<query>select f from Invoice f where f.number = ?1</query>
+	</named-query>
+
+	<named-query name="Invoice.getNextInvoiceNumber">
+		<query>select max(f.number) + 1 from Invoice f</query>
+	</named-query>
+
+	<!-- Certificate queries -->
+	<named-query name="Certificate.FindCertifiedMechanic">
+		<query> select c from Certificate c where c.mechanic = ?1 and c.vehicleType = ?2</query>
+	</named-query>
+
+	<named-query name="Certificate.FindTotalHours">
+		<query> select coalesce(sum((d.percentage*e.attendance*c.hours)/10000),0)
+				from Dedication d, Enrollment e, Course c
+				where d.vehicleType=?1 and e.mechanic=?2 and e.passed=true and d.course=c and e.course=c
+		</query>
+	</named-query>
+
+	<!-- Attendance Course queries -->
+	<named-query name="AttendanceCourse.FindAllActiveMechanics">
+		<query> select m from Mechanic m where m.id in (select e.mechanic.id from Enrollment e) </query>
+	</named-query>
+
+	<!-- Course queries -->
+	<named-query name="Course.findCourseByCode">
+		<query> select c from Course c where c.code=?1</query>
+	</named-query>
+
+
+	<!-- Use this format if your query has numeric comparisons as the one in 
+		this example <named-query name="findItemsOnSaleByCategoryId"> <query> <![CDATA[ 
+		select i from Item i join i.categories c where c.id = ?2 and i.startDate 
+		<= ?1 and i.endDate >= ?1 ]]> </query> </named-query> -->
+
+</entity-mappings>
