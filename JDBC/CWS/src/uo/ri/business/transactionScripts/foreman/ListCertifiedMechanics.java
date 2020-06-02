@@ -1,30 +1,31 @@
-package uo.ri.business.transactionScripts.foreman.reception;
+package uo.ri.business.transactionScripts.foreman;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
 import alb.util.jdbc.Jdbc;
-import uo.ri.business.dto.WorkOrderDto;
+import uo.ri.business.dto.CertificateDto;
+import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
 import uo.ri.persistance.WorkOrderGateway;
 
-public class ListWorkOrdersByPlateNumber {
-	private String plate;
+public class ListCertifiedMechanics {
+	private Long id;
 
-	public ListWorkOrdersByPlateNumber(String plate) {
-		this.plate = plate;
+	public ListCertifiedMechanics(Long id) {
+		this.id = id;
 	}
 
-	public List<WorkOrderDto> execute() {
+	public List<CertificateDto> execute() throws BusinessException {
 		try (Connection c = Jdbc.createThreadConnection();) {
 			WorkOrderGateway wog = PersistenceFactory.getWorkOrderGateway();
 			wog.setConnection(c);
-			return wog.findWorkOrdersByPlateNumber(plate);
+			return wog.findCertificatesByVehicleTypeId(id);
 
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexion");
 		}
-	}
 
+	}
 }

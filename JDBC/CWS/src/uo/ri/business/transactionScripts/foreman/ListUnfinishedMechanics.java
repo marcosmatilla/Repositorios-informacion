@@ -1,4 +1,4 @@
-package uo.ri.business.transactionScripts.foreman.reception;
+package uo.ri.business.transactionScripts.foreman;
 
 import java.sql.Connection;
 import java.sql.SQLException;

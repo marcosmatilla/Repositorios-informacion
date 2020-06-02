@@ -1,4 +1,4 @@
-package uo.ri.business.transactionScripts.foreman.reception;
+package uo.ri.business.transactionScripts.foreman;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -9,32 +9,30 @@ import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
 import uo.ri.persistance.WorkOrderGateway;
 
-public class RegisterWorkOrder {
+public class UpdateWorkOrder {
 	private WorkOrderDto workOrder;
 
-	public RegisterWorkOrder(WorkOrderDto workOrder) {
+	public UpdateWorkOrder(WorkOrderDto workOrder) {
 		this.workOrder = workOrder;
 	}
 
-	public WorkOrderDto execute() throws BusinessException {
-		WorkOrderDto aux = null;
+	public void execute() throws BusinessException {
 		try (Connection c = Jdbc.createThreadConnection()) {
 			c.setAutoCommit(false);
 			WorkOrderGateway wog = PersistenceFactory.getWorkOrderGateway();
 			wog.setConnection(c);
-			if (wog.findVehicleById(workOrder.vehicleId) == null) {
+			if (wog.findWorkOrderById(workOrder.id) == null) {
 				c.rollback();
-				throw new BusinessException("vehicle does not exist");
+				throw new BusinessException("La averia no existe");
 			}
-			if (wog.workOrderAtSameTime(workOrder)) {
+			if (!workOrder.status.equals("OPEN") && !workOrder.status.equals("ASSIGNED")) {
 				c.rollback();
-				throw new BusinessException("this vehicle had another work order");
+				throw new BusinessException("the status of the work order is not OPEN or ASSIGN");
 			}
-			aux = wog.registerNew(workOrder);
+			wog.updateWorkOrder(workOrder);
 			c.commit();
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexion");
 		}
-		return aux;
 	}
 }

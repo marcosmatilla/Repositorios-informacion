@@ -6,15 +6,15 @@ import uo.ri.business.dto.CertificateDto;
 import uo.ri.business.dto.WorkOrderDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.business.serviceLayer.workorder.WorkOrderService;
-import uo.ri.business.transactionScripts.foreman.reception.AssignWorkOrder;
-import uo.ri.business.transactionScripts.foreman.reception.ListCertifiedMechanics;
-import uo.ri.business.transactionScripts.foreman.reception.ListUnfinishedMechanics;
-import uo.ri.business.transactionScripts.foreman.reception.ListWorkOrderById;
-import uo.ri.business.transactionScripts.foreman.reception.ListWorkOrderByVehicleId;
-import uo.ri.business.transactionScripts.foreman.reception.ListWorkOrdersByPlateNumber;
-import uo.ri.business.transactionScripts.foreman.reception.RegisterWorkOrder;
-import uo.ri.business.transactionScripts.foreman.reception.RemoveWorkOrder;
-import uo.ri.business.transactionScripts.foreman.reception.UpdateWorkOrder;
+import uo.ri.business.transactionScripts.foreman.AssignWorkOrder;
+import uo.ri.business.transactionScripts.foreman.ListCertifiedMechanics;
+import uo.ri.business.transactionScripts.foreman.ListUnfinishedMechanics;
+import uo.ri.business.transactionScripts.foreman.ListWorkOrderById;
+import uo.ri.business.transactionScripts.foreman.ListWorkOrderByVehicleId;
+import uo.ri.business.transactionScripts.foreman.ListWorkOrdersByPlateNumber;
+import uo.ri.business.transactionScripts.foreman.RegisterWorkOrder;
+import uo.ri.business.transactionScripts.foreman.RemoveWorkOrder;
+import uo.ri.business.transactionScripts.foreman.UpdateWorkOrder;
 
 public class WorkOrderServiceImpl implements WorkOrderService {
 
