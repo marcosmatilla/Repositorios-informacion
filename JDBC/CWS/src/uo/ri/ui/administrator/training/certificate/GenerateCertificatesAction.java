@@ -1,4 +1,4 @@
-package uo.ri.ui.administrator.training.certificate.action;
+package uo.ri.ui.administrator.training.certificate;
 
 import alb.util.console.Console;
 import alb.util.menu.Action;

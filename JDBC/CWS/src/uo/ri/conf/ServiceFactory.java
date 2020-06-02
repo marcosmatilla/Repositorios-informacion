@@ -9,6 +9,7 @@ import uo.ri.business.serviceLayer.training.CourseAttendanceService;
 import uo.ri.business.serviceLayer.training.CourseCrudService;
 import uo.ri.business.serviceLayer.training.CourseReportService;
 import uo.ri.business.serviceLayer.training.impl.CertificateServiceImpl;
+import uo.ri.business.serviceLayer.training.impl.CourseCrudServiceImpl;
 import uo.ri.business.serviceLayer.training.impl.CourseReportServiceImpl;
 import uo.ri.business.serviceLayer.vehicle.VehicleCrudService;
 import uo.ri.business.serviceLayer.vehicle.impl.VehicleCrudServiceImpl;
@@ -41,8 +42,7 @@ public class ServiceFactory {
 	}
 	
 	public static CourseCrudService getCourseCrudService() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CourseCrudServiceImpl();
 	}
 
 	public static CourseAttendanceService getCourseAttendanceService() {
