@@ -55,6 +55,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 			throw new RuntimeException(e);
 		} finally {
 			Jdbc.close(rs, pst);
+			Jdbc.close(pst1);
 		}
 	}
 
@@ -326,7 +327,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			Jdbc.close(pst);
+			Jdbc.close(rs,pst);
 		}
 
 	}
@@ -353,7 +354,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			Jdbc.close(pst);
+			Jdbc.close(rs, pst);
 		}
 	}
 
@@ -399,7 +400,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			Jdbc.close(pst);
+			Jdbc.close(rs,pst);
 		}
 
 	}
