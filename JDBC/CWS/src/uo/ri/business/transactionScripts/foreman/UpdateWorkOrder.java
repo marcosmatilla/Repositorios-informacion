@@ -29,6 +29,10 @@ public class UpdateWorkOrder {
 				c.rollback();
 				throw new BusinessException("the status of the work order is not OPEN or ASSIGN");
 			}
+			if(workOrder.status == null) {
+				c.rollback();
+				throw new BusinessException("the status of the work order can not be null");
+			}
 			wog.updateWorkOrder(workOrder);
 			c.commit();
 		} catch (SQLException e) {
