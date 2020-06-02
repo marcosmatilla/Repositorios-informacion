@@ -21,18 +21,29 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 
 	@Override
 	public WorkOrderDto registerNew(WorkOrderDto workorder) throws SQLException {
+		WorkOrderDto toReturn = null;
 		String SQL = Conf.getInstance().getProperty("SQL_INSERT_WORKORDER");
 		PreparedStatement pst = null;
 		ResultSet rs = null;
 
 		try {
 			pst = con.prepareStatement(SQL);
+			
 			pst.setLong(1, workorder.vehicleId);
 			pst.setString(2, workorder.description);
 			Date date = new Date();
 			pst.setDate(3, new java.sql.Date(date.getTime()));
 			pst.setString(4, "OPEN");
-			pst.executeUpdate();
+			
+			rs = pst.executeQuery(); //guardar en el ResultSet algo para saber si existe
+			
+			if(rs.next() == false)
+				return toReturn; 
+			
+			//devolver DTO con el id
+			toReturn = new WorkOrderDto();
+			toReturn.id = rs.getLong("id");
+			
 			return workorder;
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
