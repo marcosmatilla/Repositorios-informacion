@@ -36,7 +36,18 @@ public class CourseGatewayImpl implements CourseGateway {
 
 	@Override
 	public void deleteCourse(Long id) {
-		// TODO Auto-generated method stub
+		String SQL = Conf.getInstance().getProperty("SQL_DELETE_COURSE_BY_ID");
+
+		PreparedStatement pst = null;
+		try {
+			pst = con.prepareStatement(SQL);
+			pst.setLong(1, id);
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(pst);
+		}
 
 	}
 
@@ -44,35 +55,33 @@ public class CourseGatewayImpl implements CourseGateway {
 	public List<CourseDto> findAllCourses() {
 		List<CourseDto> courses;
 		CourseDto course;
-		
+
 		String SQL = Conf.getInstance().getProperty("SQL_FIND_ALL_ACTIVE_COURSES");
-		
+
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		
+
 		try {
 			pst = con.prepareStatement(SQL);
 			rs = pst.executeQuery();
-			
+
 			courses = new ArrayList<CourseDto>();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				course = new CourseDto();
-				
+
 				course.code = rs.getString("code");
 				course.name = rs.getString("name");
 				course.description = rs.getString("description");
 				course.startDate = rs.getDate("startdate");
 				course.endDate = rs.getDate("enddate");
 				course.hours = rs.getInt("hours");
-				
+
 				courses.add(course);
 			}
-		}
-		catch(SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		}
-		finally {
+		} finally {
 			Jdbc.close(rs, pst);
 		}
 		return courses;
@@ -82,33 +91,30 @@ public class CourseGatewayImpl implements CourseGateway {
 	public List<VehicleTypeDto> findAllVehicleTypes() throws SQLException {
 		List<VehicleTypeDto> vehicleTypes;
 		VehicleTypeDto vt = null;
-		
+
 		String SQL = Conf.getInstance().getProperty("SQL_FIND_ALL_VEHICLE_TYPES");
 		PreparedStatement pst = null;
 		ResultSet rs = null;
-		
-		
+
 		try {
-			pst =  con.prepareStatement(SQL);
+			pst = con.prepareStatement(SQL);
 			rs = pst.executeQuery();
-			
+
 			vehicleTypes = new ArrayList<VehicleTypeDto>();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				vt = new VehicleTypeDto();
-				
+
 				vt.name = rs.getString("name");
 				vt.pricePerHour = rs.getDouble("priceperhour");
-				vt.minTrainigHours =  rs.getInt("minTrainingHours");
-				
+				vt.minTrainigHours = rs.getInt("minTrainingHours");
+
 				vehicleTypes.add(vt);
 			}
-			
-		}
-		catch(SQLException e) {
+
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		}
-		finally {
+		} finally {
 			Jdbc.close(rs, pst);
 		}
 		return vehicleTypes;
@@ -116,38 +122,36 @@ public class CourseGatewayImpl implements CourseGateway {
 
 	@Override
 	public CourseDto findCourseById(Long cId) throws SQLException {
-		
-		String SQL =  Conf.getInstance().getProperty("SQL_FIND_COURSE_BY_ID");
+
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_BY_ID");
 		PreparedStatement pst = con.prepareStatement(SQL);
 		ResultSet rs = null;
-		
+
 		CourseDto co = null;
-		
+
 		try {
 			pst.setLong(1, cId);
 			rs = pst.executeQuery();
-			
-			if(rs.next() == false){
+
+			if (rs.next() == false) {
 				return co;
 			}
-			
+
 			co = new CourseDto();
-			
+
 			co.code = rs.getString("code");
 			co.name = rs.getString("name");
 			co.description = rs.getString("description");
 			co.startDate = rs.getDate("startdate");
 			co.endDate = rs.getDate("enddate");
 			co.hours = rs.getInt("hours");
-			
-		}
-		catch(SQLException e) {
+
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		}
-		finally {
+		} finally {
 			Jdbc.close(rs, pst);
 		}
-		
+
 		return co;
 	}
 

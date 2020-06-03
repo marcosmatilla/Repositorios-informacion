@@ -31,7 +31,20 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 
 	@Override
 	public void deleteAttendace(Long id) throws SQLException {
-		// TODO Auto-generated method stub
+		String SQL = Conf.getInstance().getProperty("SQL_DELETE_ATTENDANCE_BY_ID");
+		
+		PreparedStatement pst = null;
+		try {
+			pst = con.prepareStatement(SQL);
+			pst.setLong(1, id);
+			pst.executeUpdate();
+		}
+		catch(SQLException e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			Jdbc.close(pst);
+		}
 		
 	}
 
