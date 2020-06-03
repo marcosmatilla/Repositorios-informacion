@@ -1,6 +1,7 @@
 package uo.ri.persistance.administrator.training.course.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -30,7 +31,25 @@ public class CourseGatewayImpl implements CourseGateway {
 
 	@Override
 	public void updateCourse(CourseDto course) {
-		// TODO Auto-generated method stub
+		String SQL = Conf.getInstance().getProperty("SQL_UPDATE_COURSE");
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		try {
+			pst = con.prepareStatement(SQL);
+			
+			pst.setString(1, course.code);
+			pst.setString(2, course.description);
+			pst.setDate(3, (Date) course.endDate);
+			pst.setInt(4, course.hours);
+			pst.setString(5, course.name);
+			
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
 
 	}
 
