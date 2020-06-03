@@ -10,7 +10,7 @@ import alb.util.math.Round;
 import uo.ri.business.dto.InvoiceDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
-import uo.ri.persistance.InvoiceGateway;
+import uo.ri.persistance.cashier.InvoiceGateway;
 
 public class WorkOrderBilling {
 

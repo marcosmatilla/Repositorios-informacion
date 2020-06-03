@@ -1,20 +1,21 @@
 package uo.ri.conf;
 
-import uo.ri.business.serviceLayer.invoice.InvoiceService;
-import uo.ri.business.serviceLayer.invoice.impl.InvoiceServiceImpl;
-import uo.ri.business.serviceLayer.mechanic.MechanicCrudService;
-import uo.ri.business.serviceLayer.mechanic.impl.MechanicCrudServiceImpl;
-import uo.ri.business.serviceLayer.training.CertificateService;
-import uo.ri.business.serviceLayer.training.CourseAttendanceService;
-import uo.ri.business.serviceLayer.training.CourseCrudService;
-import uo.ri.business.serviceLayer.training.CourseReportService;
-import uo.ri.business.serviceLayer.training.impl.CertificateServiceImpl;
-import uo.ri.business.serviceLayer.training.impl.CourseCrudServiceImpl;
-import uo.ri.business.serviceLayer.training.impl.CourseReportServiceImpl;
-import uo.ri.business.serviceLayer.vehicle.VehicleCrudService;
-import uo.ri.business.serviceLayer.vehicle.impl.VehicleCrudServiceImpl;
-import uo.ri.business.serviceLayer.workorder.WorkOrderService;
-import uo.ri.business.serviceLayer.workorder.impl.WorkOrderServiceImpl;
+import uo.ri.business.serviceLayer.administrator.mechanic.MechanicCrudService;
+import uo.ri.business.serviceLayer.administrator.mechanic.impl.MechanicCrudServiceImpl;
+import uo.ri.business.serviceLayer.administrator.training.certificate.CertificateService;
+import uo.ri.business.serviceLayer.administrator.training.certificate.impl.CertificateServiceImpl;
+import uo.ri.business.serviceLayer.administrator.training.course.CourseCrudService;
+import uo.ri.business.serviceLayer.administrator.training.course.impl.CourseCrudServiceImpl;
+import uo.ri.business.serviceLayer.administrator.training.courseattendance.CourseAttendanceService;
+import uo.ri.business.serviceLayer.administrator.training.courseattendance.impl.CourseAttendanceServiceImpl;
+import uo.ri.business.serviceLayer.administrator.training.report.CourseReportService;
+import uo.ri.business.serviceLayer.administrator.training.report.impl.CourseReportServiceImpl;
+import uo.ri.business.serviceLayer.administrator.vehicle.VehicleCrudService;
+import uo.ri.business.serviceLayer.administrator.vehicle.impl.VehicleCrudServiceImpl;
+import uo.ri.business.serviceLayer.cashier.InvoiceService;
+import uo.ri.business.serviceLayer.cashier.impl.InvoiceServiceImpl;
+import uo.ri.business.serviceLayer.foreman.WorkOrderService;
+import uo.ri.business.serviceLayer.foreman.impl.WorkOrderServiceImpl;
 
 public class ServiceFactory {
 	public static MechanicCrudService getMechanicCrudService() {
@@ -46,7 +47,6 @@ public class ServiceFactory {
 	}
 
 	public static CourseAttendanceService getCourseAttendanceService() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CourseAttendanceServiceImpl();
 	}
 }

@@ -4,7 +4,7 @@ import alb.util.console.Console;
 import uo.ri.business.dto.VehicleDto;
 import uo.ri.business.dto.WorkOrderDto;
 import uo.ri.business.exception.BusinessException;
-import uo.ri.business.serviceLayer.vehicle.VehicleCrudService;
+import uo.ri.business.serviceLayer.administrator.vehicle.VehicleCrudService;
 import uo.ri.conf.ServiceFactory;
 
 public class WorkOrderUserInteractor {

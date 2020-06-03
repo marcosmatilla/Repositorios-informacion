@@ -7,7 +7,7 @@ import alb.util.jdbc.Jdbc;
 import uo.ri.business.dto.TrainingHoursRow;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
-import uo.ri.persistance.CourseReportGateway;
+import uo.ri.persistance.administrator.training.report.CourseReportGateway;
 
 public class ListTrainingByVehicleType {
 	public List<TrainingHoursRow> execute() throws BusinessException {

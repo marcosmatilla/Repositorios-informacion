@@ -4,7 +4,7 @@ import alb.util.console.Console;
 import alb.util.menu.Action;
 import uo.ri.business.dto.WorkOrderDto;
 import uo.ri.business.exception.BusinessException;
-import uo.ri.business.serviceLayer.workorder.WorkOrderService;
+import uo.ri.business.serviceLayer.foreman.WorkOrderService;
 import uo.ri.conf.ServiceFactory;
 
 public class UpdateWorkOrderAction implements Action {

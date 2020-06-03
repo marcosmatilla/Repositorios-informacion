@@ -7,7 +7,7 @@ import alb.util.jdbc.Jdbc;
 import uo.ri.business.dto.VehicleDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
-import uo.ri.persistance.VehicleGateway;
+import uo.ri.persistance.administrator.vehicle.VehicleGateway;
 
 public class FindVehicleByPlate {
 	public String plate;

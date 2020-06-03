@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import alb.util.jdbc.Jdbc;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
-import uo.ri.persistance.MechanicGateway;
+import uo.ri.persistance.administrator.mechanic.MechanicGateway;
 
 public class DeleteMechanic {
 	private Long idMechanic;

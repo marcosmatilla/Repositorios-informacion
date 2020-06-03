@@ -6,7 +6,7 @@ import alb.util.console.Console;
 import alb.util.menu.Action;
 import uo.ri.business.dto.CertificateDto;
 import uo.ri.business.exception.BusinessException;
-import uo.ri.business.serviceLayer.workorder.WorkOrderService;
+import uo.ri.business.serviceLayer.foreman.WorkOrderService;
 import uo.ri.conf.ServiceFactory;
 import uo.ri.ui.util.Printer;
 

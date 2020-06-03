@@ -6,7 +6,7 @@ import java.util.List;
 import alb.util.console.Console;
 import alb.util.menu.Action;
 import uo.ri.business.exception.BusinessException;
-import uo.ri.business.serviceLayer.invoice.InvoiceService;
+import uo.ri.business.serviceLayer.cashier.InvoiceService;
 import uo.ri.conf.ServiceFactory;
 import uo.ri.ui.util.Printer;
 

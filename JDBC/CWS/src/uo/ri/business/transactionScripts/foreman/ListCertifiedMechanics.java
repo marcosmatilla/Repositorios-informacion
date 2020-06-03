@@ -8,7 +8,7 @@ import alb.util.jdbc.Jdbc;
 import uo.ri.business.dto.CertificateDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
-import uo.ri.persistance.WorkOrderGateway;
+import uo.ri.persistance.foreman.WorkOrderGateway;
 
 public class ListCertifiedMechanics {
 	private Long id;

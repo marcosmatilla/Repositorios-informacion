@@ -1,19 +1,21 @@
 package uo.ri.conf;
 
-import uo.ri.persistance.CertificateGateway;
-import uo.ri.persistance.CourseGateway;
-import uo.ri.persistance.CourseReportGateway;
-import uo.ri.persistance.InvoiceGateway;
-import uo.ri.persistance.MechanicGateway;
-import uo.ri.persistance.VehicleGateway;
-import uo.ri.persistance.WorkOrderGateway;
-import uo.ri.persistance.impl.CertificateGatewayImpl;
-import uo.ri.persistance.impl.CourseGatewayImpl;
-import uo.ri.persistance.impl.CourseReportGatewayImpl;
-import uo.ri.persistance.impl.InvoiceGatewayImpl;
-import uo.ri.persistance.impl.MechanicGatewayImpl;
-import uo.ri.persistance.impl.VehicleGatewayImpl;
-import uo.ri.persistance.impl.WorkOrderGatewayImpl;
+import uo.ri.persistance.administrator.mechanic.MechanicGateway;
+import uo.ri.persistance.administrator.mechanic.impl.MechanicGatewayImpl;
+import uo.ri.persistance.administrator.training.certificate.CertificateGateway;
+import uo.ri.persistance.administrator.training.certificate.impl.CertificateGatewayImpl;
+import uo.ri.persistance.administrator.training.course.CourseGateway;
+import uo.ri.persistance.administrator.training.course.impl.CourseGatewayImpl;
+import uo.ri.persistance.administrator.training.courseattendance.CourseAttendanceGateway;
+import uo.ri.persistance.administrator.training.courseattendance.impl.CourseAttendanceGatewayImpl;
+import uo.ri.persistance.administrator.training.report.CourseReportGateway;
+import uo.ri.persistance.administrator.training.report.impl.CourseReportGatewayImpl;
+import uo.ri.persistance.administrator.vehicle.VehicleGateway;
+import uo.ri.persistance.administrator.vehicle.impl.VehicleGatewayImpl;
+import uo.ri.persistance.cashier.InvoiceGateway;
+import uo.ri.persistance.cashier.impl.InvoiceGatewayImpl;
+import uo.ri.persistance.foreman.WorkOrderGateway;
+import uo.ri.persistance.foreman.impl.WorkOrderGatewayImpl;
 
 public class PersistenceFactory {
 	public static MechanicGateway getMechanicGateway() {
@@ -42,5 +44,9 @@ public class PersistenceFactory {
 	
 	public static CourseGateway getCourseGateway() {
 		return new CourseGatewayImpl();
+	}
+	
+	public static CourseAttendanceGateway getCourseAttendanceGateway() {
+		return new CourseAttendanceGatewayImpl();
 	}
 }

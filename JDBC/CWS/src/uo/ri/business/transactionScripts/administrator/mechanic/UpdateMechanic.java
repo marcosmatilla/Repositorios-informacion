@@ -6,7 +6,7 @@ import alb.util.jdbc.Jdbc;
 import uo.ri.business.dto.MechanicDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
-import uo.ri.persistance.MechanicGateway;
+import uo.ri.persistance.administrator.mechanic.MechanicGateway;
 
 public class UpdateMechanic {
 

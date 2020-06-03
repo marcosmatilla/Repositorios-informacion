@@ -5,7 +5,7 @@ import java.util.List;
 import alb.util.console.Console;
 import alb.util.menu.Action;
 import uo.ri.business.dto.TrainingForMechanicRow;
-import uo.ri.business.serviceLayer.training.CourseReportService;
+import uo.ri.business.serviceLayer.administrator.training.report.CourseReportService;
 import uo.ri.conf.ServiceFactory;
 import uo.ri.ui.util.Printer;
 

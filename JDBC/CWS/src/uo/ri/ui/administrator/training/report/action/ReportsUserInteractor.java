@@ -6,8 +6,8 @@ import alb.util.console.Console;
 import uo.ri.business.dto.MechanicDto;
 import uo.ri.business.dto.VehicleTypeDto;
 import uo.ri.business.exception.BusinessException;
-import uo.ri.business.serviceLayer.training.CourseAttendanceService;
-import uo.ri.business.serviceLayer.training.CourseCrudService;
+import uo.ri.business.serviceLayer.administrator.training.course.CourseCrudService;
+import uo.ri.business.serviceLayer.administrator.training.courseattendance.CourseAttendanceService;
 import uo.ri.conf.ServiceFactory;
 import uo.ri.ui.util.Printer;
 
