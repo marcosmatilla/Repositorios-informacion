@@ -14,6 +14,8 @@ import uo.ri.persistance.administrator.vehicle.VehicleGateway;
 import uo.ri.persistance.administrator.vehicle.impl.VehicleGatewayImpl;
 import uo.ri.persistance.cashier.InvoiceGateway;
 import uo.ri.persistance.cashier.impl.InvoiceGatewayImpl;
+import uo.ri.persistance.dedication.DedicationGateway;
+import uo.ri.persistance.dedication.impl.DedicationGatewayImpl;
 import uo.ri.persistance.foreman.WorkOrderGateway;
 import uo.ri.persistance.foreman.impl.WorkOrderGatewayImpl;
 import uo.ri.persistance.vehicletype.VehicleTypeGateway;
@@ -54,5 +56,9 @@ public class PersistenceFactory {
 	
 	public static VehicleTypeGateway getVehicleTypeGateway() {
 		return new VehicleTypeGatewayImpl();
+	}
+	
+	public static DedicationGateway getDedicationGateway() {
+		return new DedicationGatewayImpl();
 	}
 }

@@ -26,4 +26,6 @@ public interface CourseGateway {
 
 	CourseDto findInEnrollment(Long idCourse) throws SQLException;
 
+	List<Long> findCoursesByMechanicIdAndVehicleTypeId(Long idMechanic, Long idCourse) throws SQLException;
+
 }

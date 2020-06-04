@@ -11,7 +11,6 @@ import alb.util.jdbc.Jdbc;
 import uo.ri.business.dto.CertificateDto;
 import uo.ri.business.dto.CourseDto;
 import uo.ri.business.dto.MechanicDto;
-import uo.ri.business.dto.TrainingForMechanicRow;
 import uo.ri.business.dto.TrainingHoursRow;
 import uo.ri.business.dto.VehicleTypeDto;
 import uo.ri.conf.Conf;
@@ -273,12 +272,6 @@ public class CourseReportGatewayImpl implements CourseReportGateway {
 			Jdbc.close(rs, pst);
 		}
 		return certificates;
-	}
-
-	@Override
-	public List<TrainingForMechanicRow> findTrainigByMechanicId(Long id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

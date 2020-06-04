@@ -30,14 +30,14 @@ public class CourseGatewayImpl implements CourseGateway {
 
 		try {
 			pst = con.prepareStatement(SQL);
-			
-			pst.setString(1,course.code);
+
+			pst.setString(1, course.code);
 			pst.setString(2, course.description);
 			pst.setDate(3, new java.sql.Date(course.endDate.getTime()));
 			pst.setInt(4, course.hours);
 			pst.setString(5, course.name);
 			pst.setDate(6, new java.sql.Date(course.startDate.getTime()));
-			
+
 			pst.executeUpdate();
 
 		} catch (SQLException e) {
@@ -195,7 +195,7 @@ public class CourseGatewayImpl implements CourseGateway {
 	@Override
 	public CourseDto findCourseByName(String name) throws SQLException {
 		CourseDto course = null;
-		
+
 		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_BY_NAME");
 		PreparedStatement pst = con.prepareStatement(SQL);
 		ResultSet rs = null;
@@ -203,12 +203,12 @@ public class CourseGatewayImpl implements CourseGateway {
 		try {
 			pst.setString(1, name);
 			rs = pst.executeQuery();
-			
-			if(rs.next() == false)
+
+			if (rs.next() == false)
 				return course;
-			
+
 			course = new CourseDto();
-			
+
 			course.id = rs.getLong("id");
 			course.code = rs.getString("code");
 			course.name = rs.getString("name");
@@ -216,11 +216,9 @@ public class CourseGatewayImpl implements CourseGateway {
 			course.startDate = rs.getDate("startdate");
 			course.endDate = rs.getDate("enddate");
 			course.hours = rs.getInt("hours");
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		}
-		finally {
+		} finally {
 			Jdbc.close(rs, pst);
 		}
 		return course;
@@ -229,29 +227,56 @@ public class CourseGatewayImpl implements CourseGateway {
 	@Override
 	public CourseDto findInEnrollment(Long idCourse) throws SQLException {
 		CourseDto course = null;
-		
+
 		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_IN_ENROLLMENT");
 		PreparedStatement pst = con.prepareStatement(SQL);
 		ResultSet rs = null;
-		
+
 		try {
 			pst.setLong(1, idCourse);
 			rs = pst.executeQuery();
-			
-			if(rs.next() == false) {
+
+			if (rs.next() == false) {
 				return course;
 			}
-			
+
 			course = new CourseDto();
 			course.id = rs.getLong("id");
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		}
-		finally {
+		} finally {
 			Jdbc.close(rs, pst);
 		}
 		return course;
+	}
+
+	@Override
+	public List<Long> findCoursesByMechanicIdAndVehicleTypeId(Long idMechanic, Long idCourse) throws SQLException {
+		List<Long> courses = null;
+		CourseDto course = null;
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_BY_MECHANICID_AND_VEHICLETYPEID");
+
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		try {
+			pst = con.prepareStatement(SQL);
+			pst.setLong(1, idMechanic);
+			pst.setLong(2, idCourse);
+			rs = pst.executeQuery();
+
+			courses = new ArrayList<Long>();
+
+			while (rs.next()) {
+				courses.add(rs.getLong("course_id"));
+
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+		return courses;
 	}
 
 }
