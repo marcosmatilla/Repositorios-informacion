@@ -1,21 +1,22 @@
 package uo.ri.ui.administrator.training.course;
 
 import alb.util.menu.BaseMenu;
-import alb.util.menu.NotYetImplementedAction;
+import uo.ri.ui.administrator.training.course.action.DeleteCourseAction;
+import uo.ri.ui.administrator.training.course.action.ListAllCourseAction;
+import uo.ri.ui.administrator.training.course.action.ListCourseByIdAction;
 import uo.ri.ui.administrator.training.course.action.RegisterCourseAction;
-import uo.ri.ui.administrator.training.report.action.ListTrainingByVehicleTypeAction;
+import uo.ri.ui.administrator.training.course.action.UpdateCourseAction;
 
 public class CourseMenu extends BaseMenu {
 
 	public CourseMenu() {
-		menuOptions = new Object[][] { { "Manager > Training management > Reports", null },
+		menuOptions = new Object[][] { { "Manager > Training management > Courses", null },
 
 				{ "Register course", RegisterCourseAction.class },
-				{ "Update course", ListTrainingByVehicleTypeAction.class },
-				{ "Delete course", NotYetImplementedAction.class  },
-				{ "List all courses", NotYetImplementedAction.class },
-				{ "List all vehicle types", NotYetImplementedAction.class  },
-				{ "List course by id", NotYetImplementedAction.class } };
+				{ "Update course", UpdateCourseAction.class },
+				{ "Delete course", DeleteCourseAction.class  },
+				{ "List all courses", ListAllCourseAction.class },
+				{ "List course by id", ListCourseByIdAction.class } };
 
 
 	}
