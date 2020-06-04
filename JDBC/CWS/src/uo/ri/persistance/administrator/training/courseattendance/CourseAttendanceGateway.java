@@ -20,6 +20,8 @@ public interface CourseAttendanceGateway {
 	List<CourseDto> findAllActiveCourses() throws SQLException;
 
 	List<MechanicDto> findAllActiveMechanics() throws SQLException;
-	
+
 	EnrollmentDto findEnrollmentSameMechanicAndCourse(Long mechanic_id, Long course_id) throws SQLException;
+
+	EnrollmentDto findCourseAttendanceById(Long courseAttendanceId) throws SQLException;
 }

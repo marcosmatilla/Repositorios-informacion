@@ -226,4 +226,32 @@ public class CourseGatewayImpl implements CourseGateway {
 		return course;
 	}
 
+	@Override
+	public CourseDto findInEnrollment(Long idCourse) throws SQLException {
+		CourseDto course = null;
+		
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_IN_ENROLLMENT");
+		PreparedStatement pst = con.prepareStatement(SQL);
+		ResultSet rs = null;
+		
+		try {
+			pst.setLong(1, idCourse);
+			rs = pst.executeQuery();
+			
+			if(rs.next() == false) {
+				return course;
+			}
+			
+			course = new CourseDto();
+			course.id = rs.getLong("id");
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			Jdbc.close(rs, pst);
+		}
+		return course;
+	}
+
 }

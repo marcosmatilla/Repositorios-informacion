@@ -212,4 +212,33 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 		return enrollment;
 	}
 
+	@Override
+	public EnrollmentDto findCourseAttendanceById(Long courseAttendanceId) throws SQLException {
+		EnrollmentDto enrollment = null;
+		
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_ATTENDANCE_BY_ID");
+		PreparedStatement pst = con.prepareStatement(SQL);
+		ResultSet rs = null;
+
+		try {
+
+			pst.setLong(1, courseAttendanceId);
+			rs = pst.executeQuery();
+
+			if (rs.next() == false) {
+				return enrollment;
+			}
+
+			enrollment = new EnrollmentDto();
+
+			enrollment.id = rs.getLong("id");
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+		return enrollment;
+	}
+
 }

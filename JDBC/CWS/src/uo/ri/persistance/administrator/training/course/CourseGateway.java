@@ -24,4 +24,6 @@ public interface CourseGateway {
 
 	CourseDto findCourseByName(String name) throws SQLException;
 
+	CourseDto findInEnrollment(Long idCourse) throws SQLException;
+
 }
