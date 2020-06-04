@@ -7,6 +7,7 @@ import uo.ri.business.dto.TrainingForMechanicRow;
 import uo.ri.business.dto.TrainingHoursRow;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.business.serviceLayer.administrator.training.report.CourseReportService;
+import uo.ri.business.transactionScripts.administrator.training.report.ListCertificatesByVehicleType;
 import uo.ri.business.transactionScripts.administrator.training.report.ListTrainingByVehicleType;
 
 public class CourseReportServiceImpl implements CourseReportService {
@@ -25,8 +26,8 @@ public class CourseReportServiceImpl implements CourseReportService {
 
 	@Override
 	public List<CertificateDto> findCertificatedByVehicleType() throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		ListCertificatesByVehicleType lcbvt = new ListCertificatesByVehicleType();
+		return lcbvt.execute();
 	}
 
 }

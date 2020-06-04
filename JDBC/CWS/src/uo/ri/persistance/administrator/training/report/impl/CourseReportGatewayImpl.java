@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alb.util.jdbc.Jdbc;
+import uo.ri.business.dto.CertificateDto;
 import uo.ri.business.dto.CourseDto;
 import uo.ri.business.dto.MechanicDto;
+import uo.ri.business.dto.TrainingForMechanicRow;
 import uo.ri.business.dto.TrainingHoursRow;
 import uo.ri.business.dto.VehicleTypeDto;
 import uo.ri.conf.Conf;
@@ -234,6 +236,49 @@ public class CourseReportGatewayImpl implements CourseReportGateway {
 			Jdbc.close(rs, pst);
 		}
 		return res;
+	}
+
+	@Override
+	public List<CertificateDto> findCertificatedByVehicleType() throws SQLException {
+		List<CertificateDto> certificates;
+		CertificateDto certificate;
+		
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_CERTIFICATED_BY_VEHICLE_TYPE");
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		
+		try {
+			pst = con.prepareStatement(SQL);
+			rs = pst.executeQuery();
+			
+			certificates = new ArrayList<CertificateDto>();
+			
+			while(rs.next()) {
+				certificate = new CertificateDto();
+				
+				certificate.id = rs.getLong("id");
+				certificate.obtainedAt = rs.getDate("date");
+				certificate.mechanic = new MechanicDto();
+				certificate.mechanic.id = rs.getLong("mechanic_id");
+				certificate.vehicleType = new VehicleTypeDto();
+				certificate.vehicleType.id = rs.getLong("vehicletype_id");
+				
+				certificates.add(certificate);
+			}
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			Jdbc.close(rs, pst);
+		}
+		return certificates;
+	}
+
+	@Override
+	public List<TrainingForMechanicRow> findTrainigByMechanicId(Long id) throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
