@@ -253,7 +253,6 @@ public class CourseGatewayImpl implements CourseGateway {
 	@Override
 	public List<Long> findCoursesByMechanicIdAndVehicleTypeId(Long idMechanic, Long idCourse) throws SQLException {
 		List<Long> courses = null;
-		CourseDto course = null;
 		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_BY_MECHANICID_AND_VEHICLETYPEID");
 
 		PreparedStatement pst = null;

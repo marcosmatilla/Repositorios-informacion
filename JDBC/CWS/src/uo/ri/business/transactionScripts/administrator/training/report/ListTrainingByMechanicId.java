@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alb.util.jdbc.Jdbc;
-import uo.ri.business.dto.CourseDto;
 import uo.ri.business.dto.TrainingForMechanicRow;
 import uo.ri.business.dto.VehicleTypeDto;
 import uo.ri.conf.PersistenceFactory;
