@@ -174,10 +174,11 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 		EnrollmentDto enrollment = null;
 
 		String SQL = Conf.getInstance().getProperty("SQL_FIND_ENROLLMENT_FOR_MECHANIC_AND_COURSE");
-		PreparedStatement pst = con.prepareStatement(SQL);
+		PreparedStatement pst = null;
 		ResultSet rs = null;
 
 		try {
+			pst = con.prepareStatement(SQL);
 			pst.setLong(1, idMechanic);
 			pst.setLong(2, idCourse);
 			rs = pst.executeQuery();
@@ -190,7 +191,6 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 				enrollment.passed = rs.getBoolean("passed");
 				enrollment.courseId = rs.getLong("course_id");
 				enrollment.mechanicId = rs.getLong("mechanic_id");
-
 			}
 
 		} catch (SQLException e) {
@@ -200,17 +200,47 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 		}
 		return enrollment;
 	}
+	
+	@Override
+	public int findEnrollmentSameMechanicAndCourse1(Long idMechanic, Long idCourse) throws SQLException {
+		int attendance = 0;
+
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_ENROLLMENT_FOR_MECHANIC_AND_COURSE");
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		try {
+			pst = con.prepareStatement(SQL);
+			pst.setLong(1, idMechanic);
+			pst.setLong(2, idCourse);
+			rs = pst.executeQuery();
+
+			while (rs.next()) {
+				
+
+	
+				attendance = rs.getInt("attendance");
+
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+		return attendance;
+	}
 
 	@Override
 	public EnrollmentDto findCourseAttendanceById(Long courseAttendanceId) throws SQLException {
 		EnrollmentDto enrollment = null;
 
 		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_ATTENDANCE_BY_ID");
-		PreparedStatement pst = con.prepareStatement(SQL);
+		PreparedStatement pst = null;
 		ResultSet rs = null;
 
 		try {
-
+			pst = con.prepareStatement(SQL);
 			pst.setLong(1, courseAttendanceId);
 			rs = pst.executeQuery();
 

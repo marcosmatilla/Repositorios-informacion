@@ -24,4 +24,6 @@ public interface CourseAttendanceGateway {
 	EnrollmentDto findEnrollmentSameMechanicAndCourse(Long idMechanic, Long idCourse) throws SQLException;
 
 	EnrollmentDto findCourseAttendanceById(Long courseAttendanceId) throws SQLException;
+	
+	int findEnrollmentSameMechanicAndCourse1(Long idMechanic, Long idCourse) throws SQLException;
 }

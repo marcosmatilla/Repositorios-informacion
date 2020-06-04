@@ -34,7 +34,7 @@ public class ListTrainingByMechanicId {
 
 			for (Long course : courses) {
 				int courseHours = findHoursByCourseId(course);
-				int attendance = findAttendanceMechanicIdAndCourseId(idMechanic, course);
+				int attendance = findAttendanceMechanicIdAndCourseId(idMechanic, course); //ROMPE
 				int percentage = findPercentageByVehicleTypeIdAndCourseId(vehicle.id, course);
 
 				totalHours += (double) courseHours * (double) percentage * 0.01;
@@ -50,7 +50,7 @@ public class ListTrainingByMechanicId {
 	}
 
 	private List<VehicleTypeDto> findVehicleTypeByMechanicId() {
-		try (Connection c = Jdbc.getConnection()) {
+		try (Connection c = Jdbc.createThreadConnection()) {
 			VehicleTypeGateway vtg = PersistenceFactory.getVehicleTypeGateway();
 			vtg.setConnection(c);
 			return vtg.findVehicleTypeByMechanicId(idMechanic);
@@ -60,7 +60,7 @@ public class ListTrainingByMechanicId {
 	}
 
 	private List<Long> findCoursesByMechanicIdAndVehicleTypeId(Long idMechanic, Long idVehicleType) {
-		try (Connection c = Jdbc.getConnection()) {
+		try (Connection c = Jdbc.createThreadConnection()) {
 			CourseGateway cg = PersistenceFactory.getCourseGateway();
 			cg.setConnection(c);
 			return cg.findCoursesByMechanicIdAndVehicleTypeId(idMechanic, idVehicleType);
@@ -70,17 +70,17 @@ public class ListTrainingByMechanicId {
 	}
 
 	private int findAttendanceMechanicIdAndCourseId(Long idMechanic, Long idCourse) {
-		try (Connection c = Jdbc.getConnection()) {
-			CourseAttendanceGateway cg = PersistenceFactory.getCourseAttendanceGateway();
-			cg.setConnection(c);
-			return cg.findEnrollmentSameMechanicAndCourse(idMechanic, idCourse).attendance;
+		try (Connection c = Jdbc.createThreadConnection()) {
+			CourseAttendanceGateway cag = PersistenceFactory.getCourseAttendanceGateway();
+			cag.setConnection(c);
+			return cag.findEnrollmentSameMechanicAndCourse1(idMechanic, idCourse);
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexión");
 		}
 	}
 
 	private int findHoursByCourseId(Long id_curso) {
-		try (Connection c = Jdbc.getConnection()) {
+		try (Connection c = Jdbc.createThreadConnection()) {
 			CourseGateway cg = PersistenceFactory.getCourseGateway();
 			cg.setConnection(c);
 			return cg.findCourseById(id_curso).hours;
@@ -91,7 +91,7 @@ public class ListTrainingByMechanicId {
 	}
 
 	private int findPercentageByVehicleTypeIdAndCourseId(Long idVehicleType, Long idCourse) {
-		try (Connection c = Jdbc.getConnection()) {
+		try (Connection c = Jdbc.createThreadConnection()) {
 			DedicationGateway dg = PersistenceFactory.getDedicationGateway();
 			dg.setConnection(c);
 			return dg.findPercentageByVehicleTypeIdAndCourseId(idVehicleType, idCourse);
