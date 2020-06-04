@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,42 +21,30 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 	Connection con;
 
 	@Override
-	public WorkOrderDto registerNew(WorkOrderDto workorder) throws SQLException {
-		WorkOrderDto toReturn = null;
-		
+	public void registerNew(WorkOrderDto workorder) throws SQLException {
+
 		String SQL = Conf.getInstance().getProperty("SQL_INSERT_WORKORDER");
 		PreparedStatement pst = null;
-		PreparedStatement pst1= null;
-
 		ResultSet rs = null;
 
 		try {
 			pst = con.prepareStatement(SQL);
-			
+
 			pst.setLong(1, workorder.vehicleId);
 			pst.setString(2, workorder.description);
-			Date date = new Date();
-			pst.setDate(3, new java.sql.Date(date.getTime()));
-			pst.setString(4, "OPEN");
-			
+			/*
+			 * Date date = new Date(); 
+			 * pst.setDate(3, new java.sql.Date(date.getTime()));
+			 * pst.setString(4, "OPEN");
+			 */
+			pst.setTimestamp(3, workorder.date);
+			pst.setString(4, workorder.status);
 			pst.executeUpdate();
-			
-			pst1 = con.prepareStatement(Conf.getInstance().getProperty("SQL_GET_LAST_WORKORDER_ID"));
-			rs = pst1.executeQuery();
-			
-			if(rs.next() == false)
-				return toReturn; //seguir aqui
-			
-			//devolver DTO con el id
-			toReturn = new WorkOrderDto();
-			toReturn.id = rs.getLong(1);
-					
-			return workorder;
+
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
 			Jdbc.close(rs, pst);
-			Jdbc.close(pst1);
 		}
 	}
 
@@ -116,7 +105,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 			wo.id = rs.getLong("id");
 			wo.vehicleId = rs.getLong("vehicle_id");
 			wo.description = rs.getString("description");
-			wo.date = rs.getDate("date");
+			wo.date = rs.getTimestamp("date");
 			wo.status = rs.getString("status");
 
 		} catch (SQLException e) {
@@ -148,7 +137,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 
 				order.vehicleId = rs.getLong(1);
 				order.description = rs.getString(2);
-				order.date = rs.getDate(3);
+				order.date = rs.getTimestamp(3);
 				order.status = rs.getString(4);
 				order.id = rs.getLong(5);
 
@@ -184,7 +173,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 				wo.id = rs.getLong(1);
 				wo.vehicleId = rs.getLong(2);
 				wo.description = rs.getString(3);
-				wo.date = rs.getDate(4);
+				wo.date = rs.getTimestamp(4);
 				wo.status = rs.getString(5);
 
 				orders.add(wo);
@@ -221,7 +210,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 				wo.id = rs.getLong(1);
 				wo.vehicleId = rs.getLong(2);
 				wo.description = rs.getString(3);
-				wo.date = rs.getDate(4);
+				wo.date = rs.getTimestamp(4);
 				wo.status = rs.getString(5);
 
 				orders.add(wo);
@@ -327,7 +316,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			Jdbc.close(rs,pst);
+			Jdbc.close(rs, pst);
 		}
 
 	}
@@ -400,7 +389,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
-			Jdbc.close(rs,pst);
+			Jdbc.close(rs, pst);
 		}
 
 	}
@@ -428,6 +417,43 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {
+			Jdbc.close(rs, pst);
+		}
+		return workorder;
+	}
+
+	@Override
+	public WorkOrderDto findWorkOrderForId(Long mechanicId, Timestamp time) throws SQLException {
+		WorkOrderDto workorder = null;
+		
+		PreparedStatement pst = con.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_WORKORDER_FOR_ID"));
+		ResultSet rs = null;
+		
+		try {
+			pst.setLong(1, mechanicId);
+			pst.setTimestamp(2, time);
+			
+			rs = pst.executeQuery();
+			
+			if(rs.next() == false)
+				return workorder;
+			
+			workorder = new WorkOrderDto();
+			
+			workorder.id = rs.getLong("id");
+			workorder.total = rs.getDouble("amount");
+			workorder.description = rs.getString("description");
+			workorder.status = rs.getString("status");
+			workorder.invoiceId = rs.getLong("invoice_id");
+			workorder.mechanicId = rs.getLong("mechanic_id");
+			workorder.vehicleId = rs.getLong("vehicle_id");
+			workorder.date = rs.getTimestamp("date");
+			
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		finally {
 			Jdbc.close(rs, pst);
 		}
 		return workorder;

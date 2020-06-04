@@ -11,7 +11,7 @@ import uo.ri.business.dto.MechanicDto;
 public interface CourseAttendanceGateway {
 	void setConnection(Connection con);
 
-	EnrollmentDto registerNew(EnrollmentDto dto) throws SQLException;
+	void registerNew(EnrollmentDto dto) throws SQLException;
 
 	void deleteAttendace(Long id) throws SQLException;
 
@@ -20,4 +20,6 @@ public interface CourseAttendanceGateway {
 	List<CourseDto> findAllActiveCourses() throws SQLException;
 
 	List<MechanicDto> findAllActiveMechanics() throws SQLException;
+	
+	EnrollmentDto findEnrollmentSameMechanicAndCourse(Long mechanic_id, Long course_id) throws SQLException;
 }

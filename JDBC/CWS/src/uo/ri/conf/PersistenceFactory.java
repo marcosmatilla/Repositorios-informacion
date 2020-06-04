@@ -16,6 +16,8 @@ import uo.ri.persistance.cashier.InvoiceGateway;
 import uo.ri.persistance.cashier.impl.InvoiceGatewayImpl;
 import uo.ri.persistance.foreman.WorkOrderGateway;
 import uo.ri.persistance.foreman.impl.WorkOrderGatewayImpl;
+import uo.ri.persistance.vehicletype.VehicleTypeGateway;
+import uo.ri.persistance.vehicletype.impl.VehicleTypeGatewayImpl;
 
 public class PersistenceFactory {
 	public static MechanicGateway getMechanicGateway() {
@@ -48,5 +50,9 @@ public class PersistenceFactory {
 	
 	public static CourseAttendanceGateway getCourseAttendanceGateway() {
 		return new CourseAttendanceGatewayImpl();
+	}
+	
+	public static VehicleTypeGateway getVehicleTypeGateway() {
+		return new VehicleTypeGatewayImpl();
 	}
 }

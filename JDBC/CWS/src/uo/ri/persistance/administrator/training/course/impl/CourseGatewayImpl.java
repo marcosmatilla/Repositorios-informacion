@@ -24,9 +24,27 @@ public class CourseGatewayImpl implements CourseGateway {
 	}
 
 	@Override
-	public CourseDto registerNew(CourseDto course) {
-		// TODO Auto-generated method stub
-		return null;
+	public void registerNew(CourseDto course) {
+		String SQL = Conf.getInstance().getProperty("SQL_INSERT_COURSE");
+		PreparedStatement pst = null;
+
+		try {
+			pst = con.prepareStatement(SQL);
+			
+			pst.setString(1,course.code);
+			pst.setString(2, course.description);
+			pst.setDate(3, new java.sql.Date(course.endDate.getTime()));
+			pst.setInt(4, course.hours);
+			pst.setString(5, course.name);
+			pst.setDate(6, new java.sql.Date(course.startDate.getTime()));
+			
+			pst.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(pst);
+		}
 	}
 
 	@Override
@@ -37,13 +55,13 @@ public class CourseGatewayImpl implements CourseGateway {
 
 		try {
 			pst = con.prepareStatement(SQL);
-			
+
 			pst.setString(1, course.code);
 			pst.setString(2, course.description);
 			pst.setDate(3, (Date) course.endDate);
 			pst.setInt(4, course.hours);
 			pst.setString(5, course.name);
-			
+
 			pst.executeUpdate();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -172,6 +190,40 @@ public class CourseGatewayImpl implements CourseGateway {
 		}
 
 		return co;
+	}
+
+	@Override
+	public CourseDto findCourseByName(String name) throws SQLException {
+		CourseDto course = null;
+		
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_BY_NAME");
+		PreparedStatement pst = con.prepareStatement(SQL);
+		ResultSet rs = null;
+
+		try {
+			pst.setString(1, name);
+			rs = pst.executeQuery();
+			
+			if(rs.next() == false)
+				return course;
+			
+			course = new CourseDto();
+			
+			course.id = rs.getLong("id");
+			course.code = rs.getString("code");
+			course.name = rs.getString("name");
+			course.description = rs.getString("description");
+			course.startDate = rs.getDate("startdate");
+			course.endDate = rs.getDate("enddate");
+			course.hours = rs.getInt("hours");
+		}
+		catch (SQLException e) {
+			throw new RuntimeException(e);
+		}
+		finally {
+			Jdbc.close(rs, pst);
+		}
+		return course;
 	}
 
 }

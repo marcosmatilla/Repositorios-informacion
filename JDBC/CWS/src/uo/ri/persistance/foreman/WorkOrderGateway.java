@@ -2,6 +2,7 @@ package uo.ri.persistance.foreman;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.List;
 
 import uo.ri.business.dto.CertificateDto;
@@ -20,14 +21,12 @@ public interface WorkOrderGateway {
 	 *
 	 * @param dto. Just vehicle id and description.
 	 *
-	 * @return another dto with the provided values and service-assigned fields
-	 *         filled: id, date and status
 	 *
 	 * @throws BusinessException if: - there is another work order for the same
 	 *                           vehicle at the same date and time (timestamp), or -
 	 *                           the vehicle does not exist
 	 */
-	WorkOrderDto registerNew(WorkOrderDto dto) throws SQLException;
+	void registerNew(WorkOrderDto dto) throws SQLException;
 
 	/**
 	 * Updates the description of the work order specified by the id and version
@@ -156,4 +155,9 @@ public interface WorkOrderGateway {
 	 * @throws SQLException
 	 */
 	WorkOrderDto findById(Long idMechanic) throws SQLException;
+	
+	/*
+	 * find workorder for id
+	 */
+	WorkOrderDto findWorkOrderForId(Long mechanicId, Timestamp time) throws SQLException;
 }

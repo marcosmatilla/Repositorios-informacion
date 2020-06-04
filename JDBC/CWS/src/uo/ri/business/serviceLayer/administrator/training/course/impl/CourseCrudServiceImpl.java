@@ -6,13 +6,14 @@ import uo.ri.business.dto.CourseDto;
 import uo.ri.business.dto.VehicleTypeDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.business.serviceLayer.administrator.training.course.CourseCrudService;
+import uo.ri.business.transactionScripts.administrator.training.course.RegisterCourse;
 
 public class CourseCrudServiceImpl implements CourseCrudService{
 
 	@Override
 	public CourseDto registerNew(CourseDto dto) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		RegisterCourse rs = new RegisterCourse(dto);
+		return rs.execute();
 	}
 
 	@Override

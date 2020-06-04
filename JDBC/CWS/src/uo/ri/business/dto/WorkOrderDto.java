@@ -1,6 +1,6 @@
 package uo.ri.business.dto;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 public class WorkOrderDto {
 
@@ -8,7 +8,7 @@ public class WorkOrderDto {
 
 	public Long vehicleId;
 	public String description;
-	public Date date;
+	public Timestamp date;
 	public double total;
 	public String status;
 

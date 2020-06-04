@@ -7,13 +7,14 @@ import uo.ri.business.dto.EnrollmentDto;
 import uo.ri.business.dto.MechanicDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.business.serviceLayer.administrator.training.courseattendance.CourseAttendanceService;
+import uo.ri.business.transactionScripts.administrator.training.courseattendance.RegisterCourseAttendance;
 
 public class CourseAttendanceServiceImpl implements CourseAttendanceService {
 
 	@Override
 	public EnrollmentDto registerNew(EnrollmentDto dto) throws BusinessException {
-		// TODO Auto-generated method stub
-		return null;
+		RegisterCourseAttendance rca = new RegisterCourseAttendance(dto);
+		return rca.execute();
 	}
 
 	@Override

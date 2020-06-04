@@ -10,7 +10,7 @@ import uo.ri.business.dto.VehicleTypeDto;
 public interface CourseGateway {
 	void setConnection(Connection con);
 
-	CourseDto registerNew(CourseDto course) throws SQLException;
+	void registerNew(CourseDto course) throws SQLException;
 
 	void updateCourse(CourseDto course) throws SQLException;
 
@@ -21,5 +21,7 @@ public interface CourseGateway {
 	List<VehicleTypeDto> findAllVehicleTypes() throws SQLException;
 
 	CourseDto findCourseById(Long cId) throws SQLException;
+
+	CourseDto findCourseByName(String name) throws SQLException;
 
 }
