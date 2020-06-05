@@ -15,4 +15,7 @@ public interface VehicleTypeGateway {
 	VehicleTypeDto findById(Long id) throws SQLException;
 	
 	List<VehicleTypeDto> findVehicleTypeByMechanicId(Long mechanic_id) throws SQLException;
+	
+	List<VehicleTypeDto> getVehicles() throws SQLException;
+
 }

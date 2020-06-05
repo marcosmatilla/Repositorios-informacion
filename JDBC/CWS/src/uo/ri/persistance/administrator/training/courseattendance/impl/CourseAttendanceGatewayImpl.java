@@ -200,7 +200,7 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 		}
 		return enrollment;
 	}
-	
+
 	@Override
 	public int findEnrollmentSameMechanicAndCourse1(Long idMechanic, Long idCourse) throws SQLException {
 		int attendance = 0;
@@ -216,9 +216,7 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 			rs = pst.executeQuery();
 
 			while (rs.next()) {
-				
 
-	
 				attendance = rs.getInt("attendance");
 
 			}
@@ -258,6 +256,31 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 			Jdbc.close(rs, pst);
 		}
 		return enrollment;
+	}
+
+	@Override
+	public int getAttendance(Long idC, Long idM) throws SQLException {
+		int attendance = 1;
+		PreparedStatement pst = con.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_ATTENDANCE_BY_ID"));
+		ResultSet rs = null;
+
+		try {
+			pst.setLong(1, idC);
+			pst.setLong(2, idM);
+
+			rs = pst.executeQuery();
+
+			if (!rs.next()) {
+				return attendance;
+			}
+
+			attendance = rs.getInt(1);
+			return attendance;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
 	}
 
 }

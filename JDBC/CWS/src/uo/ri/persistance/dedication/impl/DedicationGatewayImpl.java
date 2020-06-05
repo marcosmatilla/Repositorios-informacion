@@ -44,4 +44,29 @@ public class DedicationGatewayImpl implements DedicationGateway {
 		return percentage;
 	}
 
+	@Override
+	public int getPercentage(Long idC, Long idV) throws SQLException {
+		int percentage = 1;
+		PreparedStatement pst = con.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_PERCENTAGE_BY_ID"));
+		ResultSet rs = null;
+
+		try {
+			pst.setLong(1, idC);
+			pst.setLong(2, idV);
+
+			rs = pst.executeQuery();
+
+			if (!rs.next()) {
+				return percentage;
+			}
+
+			percentage = rs.getInt(1);
+			return percentage;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+	}
+
 }

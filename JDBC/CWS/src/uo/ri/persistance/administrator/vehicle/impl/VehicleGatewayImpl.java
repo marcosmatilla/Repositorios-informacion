@@ -86,4 +86,6 @@ public class VehicleGatewayImpl implements VehicleGateway {
 		return vehicle;
 	}
 
+	
+
 }

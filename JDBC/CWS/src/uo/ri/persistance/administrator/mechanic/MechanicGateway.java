@@ -23,4 +23,5 @@ public interface MechanicGateway {
 
 	MechanicDto findInEnrollment(Long idMechanic) throws SQLException;
 
+	List<MechanicDto> getMechanics() throws SQLException;
 }

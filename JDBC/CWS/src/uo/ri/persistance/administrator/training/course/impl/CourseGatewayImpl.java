@@ -278,4 +278,58 @@ public class CourseGatewayImpl implements CourseGateway {
 		return courses;
 	}
 
+	@Override
+	public List<CourseDto> getCourses(Long idV, Long idM) throws SQLException {
+		List<CourseDto> res;
+		CourseDto course = null;
+
+		PreparedStatement pst = con
+				.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_COURSE_VEHICLETYPEID_MECHANICID"));
+		ResultSet rs = null;
+
+		try {
+			res = new ArrayList<CourseDto>();
+			pst.setLong(1, idV);
+			pst.setLong(2, idM);
+
+			rs = pst.executeQuery();
+
+			while (rs.next()) {
+				course = new CourseDto();
+				course.id = rs.getLong(1);
+
+				res.add(course);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+		return res;
+	}
+
+	@Override
+	public int getHoras(Long idC) throws SQLException {
+		int horas = 1;
+		PreparedStatement pst = con.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_HOURS_BY_ID"));
+		ResultSet rs = null;
+
+		try {
+			pst.setLong(1, idC);
+			rs = pst.executeQuery();
+
+			if (!rs.next()) {
+				return horas;
+			}
+
+			horas = rs.getInt(1);
+			return horas;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+	}
+
+
 }

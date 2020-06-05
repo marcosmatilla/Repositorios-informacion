@@ -117,5 +117,37 @@ public class VehicleTypeGatewayImpl implements VehicleTypeGateway {
 		return vehicleTypes;
 		
 	}
+	
+	@Override
+	public List<VehicleTypeDto> getVehicles() throws SQLException {
+		List<VehicleTypeDto> res;
+		VehicleTypeDto vehicle = null;
+
+		PreparedStatement pst = con.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_ALL_VEHICLETYPEID"));
+		ResultSet rs = null;
+
+		try {
+
+			res = new ArrayList<VehicleTypeDto>();
+
+			rs = pst.executeQuery();
+
+			while (rs.next()) {
+				vehicle = new VehicleTypeDto();
+				vehicle.id = rs.getLong(1);
+				vehicle.minTrainigHours = rs.getInt(2);
+				vehicle.name = rs.getString(3);  
+				vehicle.pricePerHour = rs.getInt(4);
+
+				res.add(vehicle);
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+		return res;
+	}
 
 }

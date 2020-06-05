@@ -223,4 +223,37 @@ public class MechanicGatewayImpl implements MechanicGateway {
 		return mechanic;
 	}
 
+	@Override
+	public List<MechanicDto> getMechanics() throws SQLException {
+		List<MechanicDto> res;
+		MechanicDto mechanic = null;
+
+		PreparedStatement pst = c.prepareStatement(Conf.getInstance().getProperty("SQL_ACTIVE_MECHANICS"));
+		ResultSet rs = null;
+
+		try {
+			res = new ArrayList<MechanicDto>();
+
+			rs = pst.executeQuery();
+
+			while (rs.next()) {
+				mechanic = new MechanicDto();
+
+				mechanic.id = rs.getLong(1);
+				mechanic.dni = rs.getString(2);
+				mechanic.name = rs.getString(3);
+				mechanic.surname = rs.getString(4);
+
+				res.add(mechanic);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+		return res;
+	}
+	
+	
+
 }
