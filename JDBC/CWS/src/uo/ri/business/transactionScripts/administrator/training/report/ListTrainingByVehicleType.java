@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alb.util.jdbc.Jdbc;
-import uo.ri.business.dto.CourseDto;
 import uo.ri.business.dto.MechanicDto;
 import uo.ri.business.dto.TrainingHoursRow;
 import uo.ri.business.dto.VehicleTypeDto;
@@ -18,34 +17,31 @@ import uo.ri.persistance.administrator.training.courseattendance.CourseAttendanc
 import uo.ri.persistance.dedication.DedicationGateway;
 import uo.ri.persistance.vehicletype.VehicleTypeGateway;
 
-
 public class ListTrainingByVehicleType {
-	
-	public List<TrainingHoursRow> execute() throws BusinessException {
-		List<TrainingHoursRow> res = new ArrayList<TrainingHoursRow>();;
-		TrainingHoursRow t;
 
+	public List<TrainingHoursRow> execute() throws BusinessException {
+		List<TrainingHoursRow> res = new ArrayList<TrainingHoursRow>();
+		;
 		List<VehicleTypeDto> vehicles = getVehicles();
 
-		List<MechanicDto> mechanics = getMechanics();
 		for (VehicleTypeDto v : vehicles) {
+			List<MechanicDto> mechanics = getMechanics();
 			for (MechanicDto m : mechanics) {
-				int thoras = 0;
-				for (CourseDto c : getCourses(v.id, m.id)) {
+				List<Long> courses = getCourses(v.id, m.id);
+				if (courses.size() > 0) {
+					TrainingHoursRow t = new TrainingHoursRow();
+					for (Long c : courses) {
+						int horas = getHoras(c);
+						int percentage = getPercentage(c, v.id);
+						int attendance = getAttendance(c, m.id);
+						t.enrolledHours += (int) (horas * attendance * percentage) / 10000;
+					}
 
-					int horas = getHoras(c.id);
-					int percentage = getPercentage(c.id, v.id);
-					int attendance = getAttendance(c.id, m.id);
+					t.mechanicFullName = new String(m.name + " " + m.surname);
+					t.vehicleTypeName = new String(v.name);
 
-					thoras += (horas * percentage * attendance) / 10000;
-
+					res.add(t);
 				}
-				t = new TrainingHoursRow();
-				t.enrolledHours = thoras;
-				t.mechanicFullName = new String(m.name + " " + m.surname);
-				t.vehicleTypeName = new String(v.name);
-
-				res.add(t);
 			}
 		}
 		return res;
@@ -81,11 +77,11 @@ public class ListTrainingByVehicleType {
 		}
 	}
 
-	private List<CourseDto> getCourses(Long id, Long id2) {
+	private List<Long> getCourses(Long id, Long id2) {
 		try (Connection c = Jdbc.createThreadConnection()) {
 			CourseGateway cg = PersistenceFactory.getCourseGateway();
 			cg.setConnection(c);
-			return cg.getCourses(id, id2);
+			return cg.findCoursesByMechanicIdAndVehicleTypeId(id, id2);
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexión");
 		}
