@@ -29,6 +29,7 @@ public class GenerateCertificates {
 			CertificateGateway cg = PersistenceFactory.getCertificateGateway();
 			c.setAutoCommit(false);
 			cg.setConnection(c);
+			//Hacer aquí comprobaciones de minTrainingHours??
 			n = cg.generateCertificates();
 			c.commit();
 		} catch (SQLException e) {
