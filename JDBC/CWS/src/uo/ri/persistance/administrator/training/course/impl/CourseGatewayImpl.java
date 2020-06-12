@@ -107,6 +107,7 @@ public class CourseGatewayImpl implements CourseGateway {
 			while (rs.next()) {
 				course = new CourseDto();
 
+				course.id = rs.getLong("id");
 				course.code = rs.getString("code");
 				course.name = rs.getString("name");
 				course.description = rs.getString("description");
