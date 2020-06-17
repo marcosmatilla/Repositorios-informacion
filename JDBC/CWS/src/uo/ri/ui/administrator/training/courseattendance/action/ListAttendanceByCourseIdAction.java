@@ -18,7 +18,7 @@ public class ListAttendanceByCourseIdAction implements Action {
 		CourseAttendanceService cas = ServiceFactory.getCourseAttendanceService();
 		List<EnrollmentDto> attendance = cas.findAttendanceByCourseId(id);
 
-		attendance.forEach(a -> Printer.printAttendingMechanic(a));
+		attendance.forEach(att -> Printer.printAttendingMechanic(att));
 	}
 
 }

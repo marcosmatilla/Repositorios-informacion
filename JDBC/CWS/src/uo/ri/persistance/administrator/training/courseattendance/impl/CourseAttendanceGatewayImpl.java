@@ -85,10 +85,12 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 			while (rs.next()) {
 				enrollment = new EnrollmentDto();
 
+				enrollment.id = rs.getLong("id");
 				enrollment.mechanicId = rs.getLong("mechanic_id");
 				enrollment.courseId = rs.getLong("course_id");
 				enrollment.attendance = rs.getInt("attendance");
 				enrollment.passed = rs.getBoolean("passed");
+				enrollment.mechanic = getMechanicForEnrollment(rs.getString("mechanic_id"));
 
 				enrollments.add(enrollment);
 			}
@@ -100,6 +102,38 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 		}
 		return enrollments;
 
+	}
+
+	private MechanicDto getMechanicForEnrollment(String idMechanic) throws SQLException {
+		long id = Long.parseLong(idMechanic);
+
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+
+		MechanicDto mechanic = null;
+
+		try {
+			pst = con.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_MECHANIC_BY_ID"));
+			pst.setLong(1, id);
+			rs = pst.executeQuery();
+
+			rs.next();
+
+			if (rs.getRow() != 0) {
+				mechanic = new MechanicDto();
+				mechanic.id = rs.getLong("id");
+				mechanic.name = rs.getString("name");
+				mechanic.surname = rs.getString("surname");
+				mechanic.dni = rs.getString("dni");
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(pst);
+		}
+
+		return mechanic;
 	}
 
 	@Override
