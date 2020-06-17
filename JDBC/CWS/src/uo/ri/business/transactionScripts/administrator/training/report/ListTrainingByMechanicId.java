@@ -27,26 +27,72 @@ public class ListTrainingByMechanicId {
 		List<Long> courses;
 
 		for (VehicleTypeDto vehicle : vehicleTypes) {
-			courses = findCoursesByMechanicIdAndVehicleTypeId(idMechanic, vehicle.id);
+			courses =getCourses(vehicle.id, idMechanic);
 
 			int totalHours = 0;
 			int hoursAttended = 0;
 
 			for (Long course : courses) {
-				int courseHours = findHoursByCourseId(course);
-				int attendance = findAttendanceMechanicIdAndCourseId(idMechanic, course); //ROMPE
-				int percentage = findPercentageByVehicleTypeIdAndCourseId(vehicle.id, course);
+				int courseHours = getHoras(course);
+				int attendance = getAttendance(course,idMechanic);
+				int percentage = getPercentage(course, vehicle.id);
 
 				totalHours += (double) courseHours * (double) percentage * 0.01;
-				hoursAttended += (double) courseHours * (double) percentage * 0.01 * (double) attendance * 0.01;
+				hoursAttended += (int) (courseHours * attendance * percentage) / 10000;
 			}
+			
+			System.out.println("totalHours " + totalHours);
+			System.out.println("hoursAttended " + hoursAttended);
+			
 			TrainingForMechanicRow training = new TrainingForMechanicRow();
+			
 			training.vehicleTypeName = vehicle.name;
 			training.enrolledHours = totalHours;
 			training.attendedHours = hoursAttended;
+			
 			res.add(training);
 		}
 		return res;
+	}
+	
+	private List<Long> getCourses(Long id, Long id2) {
+		try (Connection c = Jdbc.createThreadConnection()) {
+			CourseGateway cg = PersistenceFactory.getCourseGateway();
+			cg.setConnection(c);
+			return cg.findCoursesByMechanicIdAndVehicleTypeId(id, id2);
+		} catch (SQLException e) {
+			throw new RuntimeException("Error de conexión");
+		}
+	}
+	
+	private int getPercentage(Long id, Long id2) {
+		try (Connection c = Jdbc.createThreadConnection()) {
+			DedicationGateway dg = PersistenceFactory.getDedicationGateway();
+			dg.setConnection(c);
+			return dg.getPercentage(id, id2);
+		} catch (SQLException e) {
+			throw new RuntimeException("Error de conexión");
+		}
+	}
+
+	private int getAttendance(Long id, Long id2) {
+		try (Connection c = Jdbc.createThreadConnection()) {
+			CourseAttendanceGateway cag = PersistenceFactory.getCourseAttendanceGateway();
+			cag.setConnection(c);
+			return cag.getAttendance(id, id2);
+		} catch (SQLException e) {
+			throw new RuntimeException("Error de conexión");
+		}
+	}
+
+	private int getHoras(Long id) {
+		try (Connection c = Jdbc.createThreadConnection()) {
+			CourseGateway cg = PersistenceFactory.getCourseGateway();
+			cg.setConnection(c);
+			return cg.getHoras(id);
+		} catch (SQLException e) {
+			throw new RuntimeException("Error de conexión");
+		}
 	}
 
 	private List<VehicleTypeDto> findVehicleTypeByMechanicId() {
@@ -54,47 +100,6 @@ public class ListTrainingByMechanicId {
 			VehicleTypeGateway vtg = PersistenceFactory.getVehicleTypeGateway();
 			vtg.setConnection(c);
 			return vtg.findVehicleTypeByMechanicId(idMechanic);
-		} catch (SQLException e) {
-			throw new RuntimeException("Error de conexión");
-		}
-	}
-
-	private List<Long> findCoursesByMechanicIdAndVehicleTypeId(Long idMechanic, Long idVehicleType) {
-		try (Connection c = Jdbc.createThreadConnection()) {
-			CourseGateway cg = PersistenceFactory.getCourseGateway();
-			cg.setConnection(c);
-			return cg.findCoursesByMechanicIdAndVehicleTypeId(idMechanic, idVehicleType);
-		} catch (SQLException e) {
-			throw new RuntimeException("Error de conexión");
-		}
-	}
-
-	private int findAttendanceMechanicIdAndCourseId(Long idMechanic, Long idCourse) {
-		try (Connection c = Jdbc.createThreadConnection()) {
-			CourseAttendanceGateway cag = PersistenceFactory.getCourseAttendanceGateway();
-			cag.setConnection(c);
-			return cag.findEnrollmentSameMechanicAndCourse1(idMechanic, idCourse);
-		} catch (SQLException e) {
-			throw new RuntimeException("Error de conexión");
-		}
-	}
-
-	private int findHoursByCourseId(Long id_curso) {
-		try (Connection c = Jdbc.createThreadConnection()) {
-			CourseGateway cg = PersistenceFactory.getCourseGateway();
-			cg.setConnection(c);
-			return cg.findCourseById(id_curso).hours;
-		} catch (SQLException e) {
-			throw new RuntimeException("Error de conexión");
-		}
-
-	}
-
-	private int findPercentageByVehicleTypeIdAndCourseId(Long idVehicleType, Long idCourse) {
-		try (Connection c = Jdbc.createThreadConnection()) {
-			DedicationGateway dg = PersistenceFactory.getDedicationGateway();
-			dg.setConnection(c);
-			return dg.findPercentageByVehicleTypeIdAndCourseId(idVehicleType, idCourse);
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexión");
 		}
