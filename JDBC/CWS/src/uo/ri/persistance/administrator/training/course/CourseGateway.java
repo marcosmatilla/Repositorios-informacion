@@ -24,12 +24,10 @@ public interface CourseGateway {
 
 	CourseDto findCourseByName(String name) throws SQLException;
 
-	CourseDto findInEnrollment(Long idCourse) throws SQLException;
-
 	List<Long> findCoursesByMechanicIdAndVehicleTypeId(Long idMechanic, Long idCourse) throws SQLException;
 
 	List<CourseDto> getCourses(Long idV, Long idM) throws SQLException;
-	
+
 	int getHoras(Long idC) throws SQLException;
 
 }

@@ -69,4 +69,40 @@ public class DedicationGatewayImpl implements DedicationGateway {
 		}
 	}
 
+	@Override
+	public void deleteCourseFromDedication(Long idCourse) {
+		PreparedStatement pst = null;
+		String SQL = Conf.getInstance().getProperty("SQL_DELETE_COURSE_IN_DEDICATION");
+		try {
+			pst = con.prepareStatement(SQL);
+
+			pst.setLong(1, idCourse);
+
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(pst);
+		}
+	}
+
+	@Override
+	public void addDedicacion(Long number, Integer ded, Long id) {
+		PreparedStatement pst = null;
+		String SQL = Conf.getInstance().getProperty("SQL_ADD_DEDICATION");
+		try {
+			pst = con.prepareStatement(SQL);
+
+			pst.setLong(1, number);
+			pst.setLong(2, id);
+			pst.setInt(3, ded);
+
+			pst.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			Jdbc.close(pst);
+		}
+	}
+
 }

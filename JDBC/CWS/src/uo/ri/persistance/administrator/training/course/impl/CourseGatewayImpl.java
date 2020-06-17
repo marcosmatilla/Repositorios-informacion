@@ -1,7 +1,6 @@
 package uo.ri.persistance.administrator.training.course.impl;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -58,12 +57,15 @@ public class CourseGatewayImpl implements CourseGateway {
 
 			pst.setString(1, course.code);
 			pst.setString(2, course.description);
-			pst.setDate(3, (Date) course.endDate);
+			pst.setDate(3, new java.sql.Date(course.endDate.getTime()));
 			pst.setInt(4, course.hours);
 			pst.setString(5, course.name);
+			pst.setDate(6, new java.sql.Date(course.startDate.getTime()));
+			pst.setLong(7, course.id);
 
 			pst.executeUpdate();
 		} catch (SQLException e) {
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		} finally {
 			Jdbc.close(rs, pst);
@@ -177,6 +179,7 @@ public class CourseGatewayImpl implements CourseGateway {
 
 			co = new CourseDto();
 
+			co.id = rs.getLong("id");
 			co.code = rs.getString("code");
 			co.name = rs.getString("name");
 			co.description = rs.getString("description");
@@ -217,32 +220,6 @@ public class CourseGatewayImpl implements CourseGateway {
 			course.startDate = rs.getDate("startdate");
 			course.endDate = rs.getDate("enddate");
 			course.hours = rs.getInt("hours");
-		} catch (SQLException e) {
-			throw new RuntimeException(e);
-		} finally {
-			Jdbc.close(rs, pst);
-		}
-		return course;
-	}
-
-	@Override
-	public CourseDto findInEnrollment(Long idCourse) throws SQLException {
-		CourseDto course = null;
-
-		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_IN_ENROLLMENT");
-		PreparedStatement pst = con.prepareStatement(SQL);
-		ResultSet rs = null;
-
-		try {
-			pst.setLong(1, idCourse);
-			rs = pst.executeQuery();
-
-			if (rs.next() == false) {
-				return course;
-			}
-
-			course = new CourseDto();
-			course.id = rs.getLong("id");
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		} finally {

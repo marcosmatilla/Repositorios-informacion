@@ -9,4 +9,8 @@ public interface DedicationGateway {
 	int findPercentageByVehicleTypeIdAndCourseId(Long idVehicletype, Long idCourse) throws SQLException;
 	
 	int getPercentage(Long idC, Long idV) throws SQLException;
+
+	void deleteCourseFromDedication(Long idCourse);
+
+	void addDedicacion(Long i, Integer integer, Long id);
 }

@@ -283,4 +283,33 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 		}
 	}
 
+	@Override
+	public List<EnrollmentDto> findInEnrollment(Long idCourse) {
+		List<EnrollmentDto> enrollments = null;
+		EnrollmentDto enrollment = null;
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_IN_ENROLLMENT");
+		try {
+			pst = con.prepareStatement(SQL);
+			pst.setLong(1, idCourse);
+			rs = pst.executeQuery();
+			enrollments = new ArrayList<>();
+			while (rs.next()) {
+				enrollment = new EnrollmentDto();
+				enrollment.attendance = rs.getInt("attendance");
+				enrollment.passed = rs.getBoolean("passed");
+				enrollment.courseId = rs.getLong("course_id");
+				enrollment.mechanicId = rs.getLong("mechanic_id");
+				enrollments.add(enrollment);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+
+		}
+		return enrollments;
+	}
+
 }

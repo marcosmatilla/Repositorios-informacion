@@ -29,4 +29,6 @@ public interface CourseAttendanceGateway {
 	
 	int getAttendance(Long idC, Long idM) throws SQLException;
 
+	List<EnrollmentDto> findInEnrollment(Long idCourse);
+
 }

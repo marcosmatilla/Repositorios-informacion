@@ -73,7 +73,7 @@ public class UpdateCourse {
 				c.rollback();
 				throw new BusinessException("there are not dedications");
 			}
-			if(sumDevotedPercentages()) { // sum of devoted percentages does not equal 100
+			if(!sumDevotedPercentages()) { // sum of devoted percentages does not equal 100
 				c.rollback();
 				throw new BusinessException("sum of devoted percentages does not equals 100");
 			}

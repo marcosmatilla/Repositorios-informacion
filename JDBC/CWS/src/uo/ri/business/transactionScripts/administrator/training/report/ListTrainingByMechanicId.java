@@ -20,7 +20,7 @@ public class ListTrainingByMechanicId {
 	public ListTrainingByMechanicId(Long idMechanic) {
 		this.idMechanic = idMechanic;
 	}
-
+	
 	public List<TrainingForMechanicRow> execute() {
 		List<TrainingForMechanicRow> res = new ArrayList<TrainingForMechanicRow>();
 		List<VehicleTypeDto> vehicleTypes = findVehicleTypeByMechanicId();

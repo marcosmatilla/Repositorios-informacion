@@ -10,6 +10,7 @@ import uo.ri.business.dto.CourseDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
 import uo.ri.persistance.administrator.training.course.CourseGateway;
+import uo.ri.persistance.dedication.DedicationGateway;
 import uo.ri.persistance.vehicletype.VehicleTypeGateway;
 
 public class RegisterCourse {
@@ -70,7 +71,7 @@ public class RegisterCourse {
 				c.rollback();
 				throw new BusinessException("there are not dedications");
 			}
-			if(sumDevotedPercentages()) { // sum of devoted percentages does not equal 100
+			if(!sumDevotedPercentages()) { // sum of devoted percentages does not equal 100
 				c.rollback();
 				throw new BusinessException("sum of devoted percentages does not equals 100");
 			}
@@ -85,6 +86,10 @@ public class RegisterCourse {
 			CourseDto co = cg.findCourseByName(course.name);
 			course.id = co.id;
 			
+			//añadir dedication
+			addDedication();
+			c.commit();
+			
 			return course;
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexión");
@@ -92,6 +97,21 @@ public class RegisterCourse {
 	}
 
 	
+
+	private void addDedication() {
+		try (Connection c = Jdbc.getConnection()) {
+			DedicationGateway vg = PersistenceFactory.getDedicationGateway();
+			vg.setConnection(c);
+			Set<Long> keys = course.percentages.keySet();
+			for (Long i : keys) {
+				vg.addDedicacion(i, course.percentages.get(i), course.id);
+				c.commit();
+			}
+
+		} catch (SQLException e) {
+			throw new RuntimeException("Error de conexión");
+		}
+	}
 
 	private boolean checkfields() {
 		if (course.code == null || course.description == null || course.name == null || course.endDate == null
