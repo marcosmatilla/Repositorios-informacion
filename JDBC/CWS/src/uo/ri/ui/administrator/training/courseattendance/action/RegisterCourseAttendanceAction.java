@@ -14,6 +14,7 @@ public class RegisterCourseAttendanceAction implements Action {
 		e.mechanicId = Console.readLong("Mechanic id: ");
 		e.courseId = Console.readLong("Course id: ");
 		e.attendance = Console.readInt("Attendance: ");
+		e.passed = Console.readString("Passed (y/n)?").equalsIgnoreCase("y");
 		CourseAttendanceService cas = ServiceFactory.getCourseAttendanceService();
 		cas.registerNew(e);
 	}
