@@ -3,7 +3,7 @@ package uo.ri.cws.extended.course;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 import org.junit.Before;
@@ -31,7 +31,9 @@ public class AddDedicationsTests {
 	 */
 	@Test
 	public void testDedicationsAmount100() {
-		Map<VehicleType, Integer> percentages = Map.of(car, 25, truck, 75);
+		HashMap<VehicleType, Integer> percentages = new HashMap<VehicleType, Integer>();
+		percentages.put(car, 25);
+		percentages.put(truck, 75);
 
 		course.addDedications(percentages);
 
@@ -48,8 +50,9 @@ public class AddDedicationsTests {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testDedicationsLessThan100() {
-		Map<VehicleType, Integer> percentages = Map.of(car, 25, truck, 25);
-
+		HashMap<VehicleType, Integer> percentages = new HashMap<VehicleType, Integer>();
+		percentages.put(car, 25);
+		percentages.put(truck, 25);
 		course.addDedications(percentages);
 	}
 
@@ -58,8 +61,10 @@ public class AddDedicationsTests {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testDedicationsGreaterThan100() {
-		Map<VehicleType, Integer> percentages = Map.of(car, 25, truck, 85);
-
+		HashMap<VehicleType, Integer> percentages = new HashMap<VehicleType, Integer>();
+		percentages.put(car, 25);
+		percentages.put(truck, 85);
+		
 		course.addDedications(percentages);
 	}
 
@@ -68,10 +73,13 @@ public class AddDedicationsTests {
 	 */
 	@Test
 	public void testAddMoreDedicationsThrowsException() {
-		Map<VehicleType, Integer> percentages = Map.of(car, 100);
+		HashMap<VehicleType, Integer> percentages = new HashMap<VehicleType, Integer>();
+		percentages.put(car, 100);
+		
 		course.addDedications(percentages);
 
-		percentages = Map.of(car, 25, truck, 85);
+		percentages.put(car, 25);
+		percentages.put(truck, 85);
 
 		try {
 			course.addDedications(percentages);

@@ -2,7 +2,7 @@ package uo.ri.cws.extended.course;
 
 import static org.junit.Assert.assertTrue;
 
-import java.util.Map;
+import java.util.HashMap;
 import java.util.Set;
 
 import org.junit.Before;
@@ -24,8 +24,10 @@ public class ClearDedicationsTests {
 		truck = new VehicleType("truck");
 		course = new Course("C1");
 
-		Map<VehicleType, Integer> percentages = Map.of(car, 25, truck, 75);
-
+		HashMap<VehicleType, Integer> percentages = new HashMap<VehicleType, Integer>();
+		percentages.put(car, 25);
+		percentages.put(truck, 75);
+		
 		course.addDedications(percentages);
 	}
 
@@ -53,7 +55,8 @@ public class ClearDedicationsTests {
 	 */
 	@Test
 	public void testClearDedicationsBeforeAddDedications() {
-		Map<VehicleType, Integer> percentages = Map.of(car, 100);
+		HashMap<VehicleType, Integer> percentages = new HashMap<VehicleType, Integer>();
+		percentages.put(car, 100);
 
 		course.clearDedications();
 		course.addDedications(percentages);
