@@ -74,7 +74,8 @@ public class CertificateGatewayImpl implements CertificateGateway {
 		}
 	}
 
-	private void generarCertificado(Date date, Long id_mechanic, Long id_vehicletype) {
+	@Override
+	public void generarCertificado(Date date, Long id_mechanic, Long id_vehicletype) {
 
 		String SQL = Conf.getInstance().getProperty("SQL_INSERT_CERTIFICATES");
 		PreparedStatement pst = null;
@@ -93,6 +94,30 @@ public class CertificateGatewayImpl implements CertificateGateway {
 		} finally {
 			Jdbc.close(pst);
 		}
+	}
+
+	@Override
+	public boolean isMechanicCertificateForVehicleType(Long idMechanic, Long idVehicletype) throws SQLException {
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		boolean aux = false;
+		try {
+			pst = c.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_IF_MECHANIC_IS_CERTIFICATE_FOR_VEHICLETYPE"));
+			pst.setLong(1, idMechanic);
+			pst.setLong(2, idVehicletype);
+
+			rs = pst.executeQuery();
+
+			if (rs.next()) {
+				aux = true;
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+		}
+		return aux;
+		
 	}
 
 }

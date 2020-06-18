@@ -228,7 +228,7 @@ public class MechanicGatewayImpl implements MechanicGateway {
 		List<MechanicDto> res;
 		MechanicDto mechanic = null;
 
-		PreparedStatement pst = c.prepareStatement(Conf.getInstance().getProperty("SQL_ACTIVE_MECHANICS"));
+		PreparedStatement pst = c.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_ALL_MECHANICS"));
 		ResultSet rs = null;
 
 		try {

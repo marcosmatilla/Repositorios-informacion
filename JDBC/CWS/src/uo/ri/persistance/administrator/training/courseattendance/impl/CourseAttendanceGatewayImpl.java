@@ -346,4 +346,142 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 		return enrollments;
 	}
 
+	@Override
+	public List<EnrollmentDto> mechanicInCourseAndEnroll() {
+
+		List<EnrollmentDto> enrollments = null;
+		EnrollmentDto enrollment = null;
+
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_MECHANIC_IN_COURSE_AND_ENROLL");
+
+		try {
+			pst = con.prepareStatement(SQL);
+
+			rs = pst.executeQuery();
+			enrollments = new ArrayList<>();
+
+			while (rs.next()) {
+				enrollment = new EnrollmentDto();
+				enrollment.attendance = rs.getInt("attendance");
+				enrollment.passed = rs.getBoolean("passed");
+				enrollment.courseId = rs.getLong("course_id");
+				enrollment.mechanicId = rs.getLong("mechanic_id");
+				System.out.println(enrollment);
+
+				enrollments.add(enrollment);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+
+		}
+		return enrollments;
+	}
+
+	@Override
+	public List<EnrollmentDto> getEnrollments() throws SQLException {
+		List<EnrollmentDto> enrollments = null;
+		EnrollmentDto enrollment = null;
+
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_ENROLLMENTS");
+
+		try {
+			pst = con.prepareStatement(SQL);
+
+			rs = pst.executeQuery();
+			enrollments = new ArrayList<>();
+
+			while (rs.next()) {
+
+				enrollment = new EnrollmentDto();
+				enrollment.attendance = rs.getInt("attendance");
+				enrollment.passed = rs.getBoolean("passed");
+				enrollment.courseId = rs.getLong("course_id");
+				enrollment.mechanicId = rs.getLong("mechanic_id");
+
+				enrollments.add(enrollment);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+
+		}
+		return enrollments;
+	}
+
+	@Override
+	public List<EnrollmentDto> mechanicInEnroll(Long idMechanic) throws SQLException {
+		List<EnrollmentDto> enrollments = null;
+		EnrollmentDto enrollment = null;
+
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_IF_MECHANIC_IS_IN_ENROLLMENT");
+
+		try {
+			pst = con.prepareStatement(SQL);
+			pst.setLong(1, idMechanic);
+			rs = pst.executeQuery();
+			enrollments = new ArrayList<>();
+
+			while (rs.next()) {
+
+				enrollment = new EnrollmentDto();
+				enrollment.attendance = rs.getInt("attendance");
+				enrollment.passed = rs.getBoolean("passed");
+				enrollment.courseId = rs.getLong("course_id");
+				enrollment.mechanicId = rs.getLong("mechanic_id");
+
+				enrollments.add(enrollment);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+
+		}
+		return enrollments;
+
+	}
+
+	@Override
+	public List<EnrollmentDto> courseInEnroll(Long idCourse) throws SQLException {
+		List<EnrollmentDto> enrollments = null;
+		EnrollmentDto enrollment = null;
+
+		PreparedStatement pst = null;
+		ResultSet rs = null;
+		String SQL = Conf.getInstance().getProperty("SQL_FIND_COURSE_IN_ENROLLMENT");
+
+		try {
+			pst = con.prepareStatement(SQL);
+			pst.setLong(1, idCourse);
+			rs = pst.executeQuery();
+			enrollments = new ArrayList<>();
+
+			while (rs.next()) {
+
+				enrollment = new EnrollmentDto();
+				enrollment.attendance = rs.getInt("attendance");
+				enrollment.passed = rs.getBoolean("passed");
+				enrollment.courseId = rs.getLong("course_id");
+				enrollment.mechanicId = rs.getLong("mechanic_id");
+
+				enrollments.add(enrollment);
+			}
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			Jdbc.close(rs, pst);
+
+		}
+		return enrollments;
+	}
+
 }
