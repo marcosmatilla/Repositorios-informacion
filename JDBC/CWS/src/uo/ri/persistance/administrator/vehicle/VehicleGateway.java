@@ -11,7 +11,5 @@ public interface VehicleGateway {
 	VehicleDto findVehicleByPlate(String plate) throws SQLException;
 
 	VehicleDto findVehicleById(Long id) throws SQLException;
-	
-	
-		
+
 }

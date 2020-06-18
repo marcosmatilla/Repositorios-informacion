@@ -14,9 +14,9 @@ public class ListMechanicsAction implements Action {
 
 	@Override
 	public void execute() throws BusinessException {
-		
+
 		Console.println("\nList of mechanics \n");
-		
+
 		MechanicCrudService mcs = ServiceFactory.getMechanicCrudService();
 		List<MechanicDto> mechanics = mcs.findAllMechanics();
 

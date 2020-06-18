@@ -14,14 +14,14 @@ public class ListAllCourseAction implements Action {
 	@Override
 	public void execute() throws Exception {
 		Console.println("\nList of courses \n");
-	
+
 		CourseCrudService ccs = ServiceFactory.getCourseCrudService();
 		List<CourseDto> courses = ccs.findAllCourses();
 
 		for (CourseDto c : courses) {
 			Printer.printCourse(c);
 		}
-		
+
 	}
 
 }

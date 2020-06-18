@@ -20,41 +20,41 @@ public class ListTrainingByMechanicId {
 	public ListTrainingByMechanicId(Long idMechanic) {
 		this.idMechanic = idMechanic;
 	}
-	
+
 	public List<TrainingForMechanicRow> execute() {
 		List<TrainingForMechanicRow> res = new ArrayList<TrainingForMechanicRow>();
 		List<VehicleTypeDto> vehicleTypes = findVehicleTypeByMechanicId();
 		List<Long> courses;
 
 		for (VehicleTypeDto vehicle : vehicleTypes) {
-			courses =getCourses(vehicle.id, idMechanic);
+			courses = getCourses(vehicle.id, idMechanic);
 
 			int totalHours = 0;
 			int hoursAttended = 0;
 
 			for (Long course : courses) {
 				int courseHours = getHoras(course);
-				int attendance = getAttendance(course,idMechanic);
+				int attendance = getAttendance(course, idMechanic);
 				int percentage = getPercentage(course, vehicle.id);
 
 				totalHours += (double) courseHours * (double) percentage * 0.01;
 				hoursAttended += (int) (courseHours * attendance * percentage) / 10000;
 			}
-			
+
 			System.out.println("totalHours " + totalHours);
 			System.out.println("hoursAttended " + hoursAttended);
-			
+
 			TrainingForMechanicRow training = new TrainingForMechanicRow();
-			
+
 			training.vehicleTypeName = vehicle.name;
 			training.enrolledHours = totalHours;
 			training.attendedHours = hoursAttended;
-			
+
 			res.add(training);
 		}
 		return res;
 	}
-	
+
 	private List<Long> getCourses(Long id, Long id2) {
 		try (Connection c = Jdbc.createThreadConnection()) {
 			CourseGateway cg = PersistenceFactory.getCourseGateway();
@@ -64,7 +64,7 @@ public class ListTrainingByMechanicId {
 			throw new RuntimeException("Error de conexión");
 		}
 	}
-	
+
 	private int getPercentage(Long id, Long id2) {
 		try (Connection c = Jdbc.createThreadConnection()) {
 			DedicationGateway dg = PersistenceFactory.getDedicationGateway();

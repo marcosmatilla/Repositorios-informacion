@@ -51,52 +51,51 @@ public class RegisterCourse {
 				c.rollback();
 				throw new BusinessException("there is a wrong field");
 			}
-			if(cg.findCourseByName(course.name) != null) { // existe curso con same nombre
+			if (cg.findCourseByName(course.name) != null) { // existe curso con same nombre
 				c.rollback();
 				throw new BusinessException("already exist a course with that name");
 			}
-			if(!percentageDevoted()) { // there is percentage devoted to a nono existing vehicletype
+			if (!percentageDevoted()) { // there is percentage devoted to a nono existing vehicletype
 				c.rollback();
 				throw new BusinessException("there is percentage devoted to a non existing vehicletype");
 			}
-			if(course.startDate.after(course.endDate) || course.startDate.before(today) || course.endDate.before(today)) { // date wrong
+			if (course.startDate.after(course.endDate) || course.startDate.before(today)
+					|| course.endDate.before(today)) { // date wrong
 				c.rollback();
 				throw new BusinessException("date is wrong");
 			}
-			if(course.hours <= 0) { 	// number of hours zero or negative
+			if (course.hours <= 0) { // number of hours zero or negative
 				c.rollback();
 				throw new BusinessException("hours can not be negative or zero");
-			}	
-			if(course.percentages.isEmpty()) { // there are not dedications specified
+			}
+			if (course.percentages.isEmpty()) { // there are not dedications specified
 				c.rollback();
 				throw new BusinessException("there are not dedications");
 			}
-			if(!sumDevotedPercentages()) { // sum of devoted percentages does not equal 100
+			if (!sumDevotedPercentages()) { // sum of devoted percentages does not equal 100
 				c.rollback();
 				throw new BusinessException("sum of devoted percentages does not equals 100");
 			}
-			if(invalidPercentage()) { // there are any dedication with an invalid percentage (empty, zero, negative)
+			if (invalidPercentage()) { // there are any dedication with an invalid percentage (empty, zero, negative)
 				c.rollback();
 				throw new BusinessException("there is a dedication with and invalid percentage");
 			}
-			
+
 			cg.registerNew(course);
 			c.commit();
 
 			CourseDto co = cg.findCourseByName(course.name);
 			course.id = co.id;
-			
-			//añadir dedication
+
+			// añadir dedication
 			addDedication();
 			c.commit();
-			
+
 			return course;
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexión");
 		}
 	}
-
-	
 
 	private void addDedication() {
 		try (Connection c = Jdbc.getConnection()) {
@@ -121,7 +120,7 @@ public class RegisterCourse {
 		}
 		return false;
 	}
-	
+
 	private boolean percentageDevoted() {
 		try (Connection c = Jdbc.getConnection()) {
 			VehicleTypeGateway vtg = PersistenceFactory.getVehicleTypeGateway();
@@ -137,21 +136,21 @@ public class RegisterCourse {
 			throw new RuntimeException("Error de conexión");
 		}
 	}
-	
+
 	private boolean sumDevotedPercentages() {
 		Set<Long> keys = course.percentages.keySet();
 		int total = 0;
-		for(Long i: keys)
-			total+= course.percentages.get(i);
-		if(total == 100)
+		for (Long i : keys)
+			total += course.percentages.get(i);
+		if (total == 100)
 			return true;
-		return false; 
+		return false;
 	}
-	
+
 	private boolean invalidPercentage() {
 		Set<Long> keys = course.percentages.keySet();
-		for (Long i : keys) 
-			if (course.percentages.get(i) <= 0 || course.percentages.get(i) > 100) 
+		for (Long i : keys)
+			if (course.percentages.get(i) <= 0 || course.percentages.get(i) > 100)
 				return true;
 		return false;
 	}

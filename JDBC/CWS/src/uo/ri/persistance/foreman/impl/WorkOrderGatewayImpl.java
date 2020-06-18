@@ -33,8 +33,7 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 			pst.setLong(1, workorder.vehicleId);
 			pst.setString(2, workorder.description);
 			/*
-			 * Date date = new Date(); 
-			 * pst.setDate(3, new java.sql.Date(date.getTime()));
+			 * Date date = new Date(); pst.setDate(3, new java.sql.Date(date.getTime()));
 			 * pst.setString(4, "OPEN");
 			 */
 			pst.setTimestamp(3, workorder.date);
@@ -425,21 +424,21 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 	@Override
 	public WorkOrderDto findWorkOrderForId(Long mechanicId, Timestamp time) throws SQLException {
 		WorkOrderDto workorder = null;
-		
+
 		PreparedStatement pst = con.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_WORKORDER_FOR_ID"));
 		ResultSet rs = null;
-		
+
 		try {
 			pst.setLong(1, mechanicId);
 			pst.setTimestamp(2, time);
-			
+
 			rs = pst.executeQuery();
-			
-			if(rs.next() == false)
+
+			if (rs.next() == false)
 				return workorder;
-			
+
 			workorder = new WorkOrderDto();
-			
+
 			workorder.id = rs.getLong("id");
 			workorder.total = rs.getDouble("amount");
 			workorder.description = rs.getString("description");
@@ -448,12 +447,10 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 			workorder.mechanicId = rs.getLong("mechanic_id");
 			workorder.vehicleId = rs.getLong("vehicle_id");
 			workorder.date = rs.getTimestamp("date");
-			
-		}
-		catch (SQLException e) {
+
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
-		}
-		finally {
+		} finally {
 			Jdbc.close(rs, pst);
 		}
 		return workorder;

@@ -13,11 +13,11 @@ import uo.ri.persistance.administrator.training.courseattendance.CourseAttendanc
 
 public class RegisterCourseAttendance {
 	private EnrollmentDto enrollment;
-	
+
 	public RegisterCourseAttendance(EnrollmentDto enrollment) {
 		this.enrollment = enrollment;
 	}
-	
+
 	/**
 	 * Registers the attendance of a mechanic to a course.
 	 * 
@@ -36,46 +36,50 @@ public class RegisterCourseAttendance {
 	 *                           range 0..100
 	 */
 	public EnrollmentDto execute() throws BusinessException {
-		
+
 		try (Connection c = Jdbc.createThreadConnection()) {
 			c.setAutoCommit(false);
 			CourseAttendanceGateway cag = PersistenceFactory.getCourseAttendanceGateway();
-			MechanicGateway mg = PersistenceFactory.getMechanicGateway(); //For mechanic id
-			CourseGateway cg = PersistenceFactory.getCourseGateway(); //For course id
+			MechanicGateway mg = PersistenceFactory.getMechanicGateway(); // For mechanic id
+			CourseGateway cg = PersistenceFactory.getCourseGateway(); // For course id
 			cag.setConnection(c);
 			mg.setConnection(c);
 			cg.setConnection(c);
-			if(mg.findById(enrollment.mechanicId) == null) { //Mecanico no existe
+			if (mg.findById(enrollment.mechanicId) == null) { // Mecanico no existe
 				c.rollback();
 				throw new BusinessException("mechanic does not exist");
 			}
-			if(cg.findCourseById(enrollment.courseId) == null) {
+			if (cg.findCourseById(enrollment.courseId) == null) {
 				c.rollback();
 				throw new BusinessException("course does not exist");
 			}
-			if(cag.findEnrollmentSameMechanicAndCourse(enrollment.mechanicId, enrollment.courseId) != null) { //Otro enrollemnte al mismo mecanicoy curso
+			if (cag.findEnrollmentSameMechanicAndCourse(enrollment.mechanicId, enrollment.courseId) != null) { // Otro
+																												// enrollemnte
+																												// al
+																												// mismo
+																												// mecanicoy
+																												// curso
 				c.rollback();
 				throw new BusinessException("there is another same course with same mechanic assigned ");
 			}
-			if(enrollment.passed && enrollment.attendance < 85) { //Attendance < 85 y curso marcada como passed
+			if (enrollment.passed && enrollment.attendance < 85) { // Attendance < 85 y curso marcada como passed
 				c.rollback();
 				throw new BusinessException("attendance must be more than 85 and can not be passed");
 			}
-			if(!(enrollment.attendance >= 0 && enrollment.attendance <= 100)) {
+			if (!(enrollment.attendance >= 0 && enrollment.attendance <= 100)) {
 				c.rollback();
 				throw new BusinessException("attendance is not between 0 and 100");
 			}
 			cag.registerNew(enrollment);
 			c.commit();
-			
+
 			EnrollmentDto en = cag.findEnrollmentSameMechanicAndCourse(enrollment.mechanicId, enrollment.courseId);
 			enrollment.id = en.id;
-			
+
 			return enrollment;
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexión");
 		}
-	
+
 	}
 }

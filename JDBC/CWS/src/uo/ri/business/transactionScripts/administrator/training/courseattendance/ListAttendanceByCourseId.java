@@ -13,24 +13,23 @@ import uo.ri.persistance.administrator.training.courseattendance.CourseAttendanc
 
 public class ListAttendanceByCourseId {
 	private Long idCourse;
-	
+
 	public ListAttendanceByCourseId(Long idCourse) {
 		this.idCourse = idCourse;
 	}
-	
+
 	public List<EnrollmentDto> execute() throws BusinessException {
 		try (Connection c = Jdbc.createThreadConnection();) {
 			CourseAttendanceGateway cag = PersistenceFactory.getCourseAttendanceGateway();
 			CourseGateway cg = PersistenceFactory.getCourseGateway();
 			cag.setConnection(c);
 			cg.setConnection(c);
-			if(cg.findCourseById(idCourse) == null) {
+			if (cg.findCourseById(idCourse) == null) {
 				c.rollback();
 				throw new BusinessException("course does not exist");
 			}
 			return cag.findAttendanceByCourseId(idCourse);
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexión");
 		}
 	}

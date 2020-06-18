@@ -155,7 +155,7 @@ public interface WorkOrderGateway {
 	 * @throws SQLException
 	 */
 	WorkOrderDto findById(Long idMechanic) throws SQLException;
-	
+
 	/*
 	 * find workorder for id
 	 */

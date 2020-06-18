@@ -13,9 +13,9 @@ import uo.ri.ui.util.Printer;
 public class WorkOrderBillingAction implements Action {
 	@Override
 	public void execute() throws BusinessException {
-		
+
 		List<Long> workOrderIds = new ArrayList<Long>();
-		
+
 		do {
 			Long id = Console.readLong("Type work order ids ? ");
 			workOrderIds.add(id);

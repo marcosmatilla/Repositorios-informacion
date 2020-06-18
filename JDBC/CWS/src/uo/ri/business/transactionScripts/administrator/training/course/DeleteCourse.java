@@ -45,7 +45,7 @@ public class DeleteCourse {
 				c.rollback();
 				throw new BusinessException("course in enrollment");
 			}
-			//borrar tb de las dedicaciones
+			// borrar tb de las dedicaciones
 			dg.deleteCourseFromDedication(idCourse);
 			c.commit();
 			cg.deleteCourse(idCourse);

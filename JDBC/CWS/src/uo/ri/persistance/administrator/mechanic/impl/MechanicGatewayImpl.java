@@ -253,7 +253,5 @@ public class MechanicGatewayImpl implements MechanicGateway {
 		}
 		return res;
 	}
-	
-	
 
 }

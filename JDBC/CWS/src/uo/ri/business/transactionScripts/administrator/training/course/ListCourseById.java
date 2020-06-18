@@ -15,12 +15,12 @@ public class ListCourseById {
 	public ListCourseById(Long idCourse) {
 		this.idCourse = idCourse;
 	}
-	
+
 	public CourseDto execute() throws BusinessException {
 		try (Connection c = Jdbc.createThreadConnection();) {
 			CourseGateway cg = PersistenceFactory.getCourseGateway();
 			cg.setConnection(c);
-			if(cg.findCourseById(idCourse) == null) {
+			if (cg.findCourseById(idCourse) == null) {
 				c.rollback();
 				throw new BusinessException("course does not exist");
 			}

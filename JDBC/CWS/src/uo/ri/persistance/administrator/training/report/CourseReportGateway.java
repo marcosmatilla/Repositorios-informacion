@@ -8,7 +8,7 @@ import uo.ri.business.dto.CertificateDto;
 
 public interface CourseReportGateway {
 	void setConnection(Connection c);
-	
+
 	List<CertificateDto> findCertificatedByVehicleType() throws SQLException;
 
 }

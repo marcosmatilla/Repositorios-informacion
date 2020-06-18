@@ -51,6 +51,7 @@ public interface CourseAttendanceService {
 
 	/**
 	 * List all active courses
+	 * 
 	 * @return List course dto
 	 * @throws BusinessException
 	 */
@@ -58,6 +59,7 @@ public interface CourseAttendanceService {
 
 	/**
 	 * List all active mechanics
+	 * 
 	 * @return List mechanic dto
 	 * @throws BusinessException
 	 */

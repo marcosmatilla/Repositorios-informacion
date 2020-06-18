@@ -14,7 +14,7 @@ import uo.ri.business.serviceLayer.administrator.training.course.CourseCrudServi
 import uo.ri.conf.ServiceFactory;
 import uo.ri.ui.util.Printer;
 
-public class RegisterCourseAction implements Action{
+public class RegisterCourseAction implements Action {
 
 	@Override
 	public void execute() throws Exception {
@@ -25,15 +25,15 @@ public class RegisterCourseAction implements Action{
 		c.hours = Console.readInt("Hours");
 		c.name = Console.readString("Name");
 		c.startDate = askForDate("Start date");
-		
+
 		showAllVehicleTypes();
 		askDedicationPercentages(c.percentages);
-		
+
 		CourseCrudService cs = ServiceFactory.getCourseCrudService();
 		cs.registerNew(c);
-		
+
 	}
-	
+
 	private Date askForDate(String msg) {
 		while (true) {
 			try {
@@ -44,7 +44,7 @@ public class RegisterCourseAction implements Action{
 			}
 		}
 	}
-	
+
 	private void showAllVehicleTypes() throws BusinessException {
 		CourseCrudService cs = ServiceFactory.getCourseCrudService();
 
@@ -54,7 +54,7 @@ public class RegisterCourseAction implements Action{
 			Printer.printVehicleType(vt);
 		}
 	}
-	
+
 	private void askDedicationPercentages(Map<Long, Integer> percentages) throws BusinessException {
 		percentages.clear();
 		int total = 0;

@@ -20,7 +20,7 @@ public class ListWorkOrderById {
 		try (Connection c = Jdbc.createThreadConnection()) {
 			WorkOrderGateway wog = PersistenceFactory.getWorkOrderGateway();
 			wog.setConnection(c);
-			//Comprobar que el id exista
+			// Comprobar que el id exista
 			if (wog.findWorkOrderById(id) == null) {
 				c.rollback();
 				throw new BusinessException("the work orders does not exist");

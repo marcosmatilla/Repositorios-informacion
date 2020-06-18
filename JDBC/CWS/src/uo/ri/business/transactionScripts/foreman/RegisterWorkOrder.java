@@ -51,7 +51,7 @@ public class RegisterWorkOrder {
 			}
 			wog.registerNew(workOrder);
 			c.commit();
-			//Insertar datos en el dto para devolver
+			// Insertar datos en el dto para devolver
 			workOrder.status = "OPEN";
 			Timestamp time = new Timestamp(System.currentTimeMillis());
 			workOrder.date = time;
@@ -61,6 +61,6 @@ public class RegisterWorkOrder {
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexion");
 		}
-	
+
 	}
 }

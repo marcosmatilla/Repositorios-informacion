@@ -10,8 +10,8 @@ import uo.ri.conf.PersistenceFactory;
 import uo.ri.persistance.administrator.training.course.CourseGateway;
 
 public class ListAllCourses {
-	
-	public List<CourseDto> execute(){
+
+	public List<CourseDto> execute() {
 		try (Connection c = Jdbc.createThreadConnection();) {
 			CourseGateway cg = PersistenceFactory.getCourseGateway();
 			cg.setConnection(c);

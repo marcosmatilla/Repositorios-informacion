@@ -14,14 +14,14 @@ import uo.ri.business.serviceLayer.administrator.training.course.CourseCrudServi
 import uo.ri.conf.ServiceFactory;
 import uo.ri.ui.util.Printer;
 
-public class UpdateCourseAction implements Action{
+public class UpdateCourseAction implements Action {
 
 	@Override
 	public void execute() throws Exception {
 		CourseDto course = new CourseDto();
-		
+
 		course.id = Console.readLong("Course id");
-		
+
 		course.code = Console.readString("Code");
 		course.description = Console.readString("Description");
 		course.endDate = askForDate("End date");
@@ -30,14 +30,13 @@ public class UpdateCourseAction implements Action{
 		course.startDate = askForDate("Start date");
 		showAllVehicleTypes();
 		askDedicationPercentages(course.percentages);
-		CourseCrudService ccs = ServiceFactory.getCourseCrudService();	
+		CourseCrudService ccs = ServiceFactory.getCourseCrudService();
 		ccs.updateCourse(course);
-		
-		
+
 		Console.println("Course update");
-		
+
 	}
-	
+
 	private void showAllVehicleTypes() throws BusinessException {
 		CourseCrudService cs = ServiceFactory.getCourseCrudService();
 
@@ -47,7 +46,7 @@ public class UpdateCourseAction implements Action{
 			Printer.printVehicleType(vt);
 		}
 	}
-	
+
 	private void askDedicationPercentages(Map<Long, Integer> percentages) throws BusinessException {
 		percentages.clear();
 		int total = 0;

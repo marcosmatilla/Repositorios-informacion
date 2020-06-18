@@ -24,19 +24,19 @@ public interface CourseAttendanceGateway {
 	EnrollmentDto findEnrollmentSameMechanicAndCourse(Long idMechanic, Long idCourse) throws SQLException;
 
 	EnrollmentDto findCourseAttendanceById(Long courseAttendanceId) throws SQLException;
-	
+
 	int findEnrollmentSameMechanicAndCourse1(Long idMechanic, Long idCourse) throws SQLException;
-	
+
 	int getAttendance(Long idC, Long idM) throws SQLException;
 
 	List<EnrollmentDto> findInEnrollment(Long idCourse);
-	
+
 	List<EnrollmentDto> getEnrollments() throws SQLException;
 
 	List<EnrollmentDto> mechanicInCourseAndEnroll() throws SQLException;
-	
+
 	List<EnrollmentDto> mechanicInEnroll(Long idMechanic) throws SQLException;
-	
+
 	List<EnrollmentDto> courseInEnroll(Long idCourse) throws SQLException;
 
 }

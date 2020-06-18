@@ -12,8 +12,8 @@ import uo.ri.persistance.administrator.training.report.CourseReportGateway;
 import uo.ri.persistance.vehicletype.VehicleTypeGateway;
 
 public class ListCertificatesByVehicleType {
-	
-	public List<CertificateDto> execute(){
+
+	public List<CertificateDto> execute() {
 		try (Connection c = Jdbc.createThreadConnection();) {
 			CourseReportGateway crg = PersistenceFactory.getCourseReportGateway();
 			MechanicGateway mg = PersistenceFactory.getMechanicGateway();
@@ -22,16 +22,15 @@ public class ListCertificatesByVehicleType {
 			mg.setConnection(c);
 			vtg.setConnection(c);
 			List<CertificateDto> certificates = crg.findCertificatedByVehicleType();
-			
-			for(CertificateDto cer: certificates) {
+
+			for (CertificateDto cer : certificates) {
 				Long idMechanic = cer.mechanic.id;
 				Long idVehicle = cer.vehicleType.id;
 				cer.mechanic = mg.findById(idMechanic);
 				cer.vehicleType = vtg.findById(idVehicle);
 			}
 			return certificates;
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexión");
 		}
 	}

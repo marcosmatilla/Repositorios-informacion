@@ -102,7 +102,8 @@ public class CertificateGatewayImpl implements CertificateGateway {
 		ResultSet rs = null;
 		boolean aux = false;
 		try {
-			pst = c.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_IF_MECHANIC_IS_CERTIFICATE_FOR_VEHICLETYPE"));
+			pst = c.prepareStatement(
+					Conf.getInstance().getProperty("SQL_FIND_IF_MECHANIC_IS_CERTIFICATE_FOR_VEHICLETYPE"));
 			pst.setLong(1, idMechanic);
 			pst.setLong(2, idVehicletype);
 
@@ -117,7 +118,7 @@ public class CertificateGatewayImpl implements CertificateGateway {
 			Jdbc.close(rs, pst);
 		}
 		return aux;
-		
+
 	}
 
 }

@@ -45,19 +45,19 @@ public class PersistenceFactory {
 	public static WorkOrderGateway getWorkOrderGateway() {
 		return new WorkOrderGatewayImpl();
 	}
-	
+
 	public static CourseGateway getCourseGateway() {
 		return new CourseGatewayImpl();
 	}
-	
+
 	public static CourseAttendanceGateway getCourseAttendanceGateway() {
 		return new CourseAttendanceGatewayImpl();
 	}
-	
+
 	public static VehicleTypeGateway getVehicleTypeGateway() {
 		return new VehicleTypeGatewayImpl();
 	}
-	
+
 	public static DedicationGateway getDedicationGateway() {
 		return new DedicationGatewayImpl();
 	}

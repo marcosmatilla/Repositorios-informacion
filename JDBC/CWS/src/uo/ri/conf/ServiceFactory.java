@@ -41,7 +41,7 @@ public class ServiceFactory {
 	public static WorkOrderService getWorkOrderService() {
 		return new WorkOrderServiceImpl();
 	}
-	
+
 	public static CourseCrudService getCourseCrudService() {
 		return new CourseCrudServiceImpl();
 	}

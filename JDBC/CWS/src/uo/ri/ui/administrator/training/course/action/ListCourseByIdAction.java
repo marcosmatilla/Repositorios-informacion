@@ -7,14 +7,14 @@ import uo.ri.business.serviceLayer.administrator.training.course.CourseCrudServi
 import uo.ri.conf.ServiceFactory;
 import uo.ri.ui.util.Printer;
 
-public class ListCourseByIdAction implements Action{
+public class ListCourseByIdAction implements Action {
 
 	@Override
 	public void execute() throws Exception {
 		Long id = Console.readLong("Id course");
 		CourseCrudService ccs = ServiceFactory.getCourseCrudService();
 		CourseDto cd = ccs.findCourseById(id);
-		
+
 		Console.println("Course for id " + id);
 		Printer.printCourse(cd);
 	}

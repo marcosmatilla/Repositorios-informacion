@@ -115,9 +115,9 @@ public class VehicleTypeGatewayImpl implements VehicleTypeGateway {
 			Jdbc.close(rs, pst);
 		}
 		return vehicleTypes;
-		
+
 	}
-	
+
 	@Override
 	public List<VehicleTypeDto> getVehicles() throws SQLException {
 		List<VehicleTypeDto> res;
@@ -136,7 +136,7 @@ public class VehicleTypeGatewayImpl implements VehicleTypeGateway {
 				vehicle = new VehicleTypeDto();
 				vehicle.id = rs.getLong(1);
 				vehicle.minTrainigHours = rs.getInt(2);
-				vehicle.name = rs.getString(3);  
+				vehicle.name = rs.getString(3);
 				vehicle.pricePerHour = rs.getInt(4);
 
 				res.add(vehicle);

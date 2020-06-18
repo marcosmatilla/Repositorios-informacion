@@ -14,7 +14,6 @@ public class AttendanceMenu extends BaseMenu {
 				{ "Delete course", DeleteCourseAttendanceAction.class },
 				{ "List course attendance by id", ListAttendanceByCourseIdAction.class } };
 
-
 	}
 
 }

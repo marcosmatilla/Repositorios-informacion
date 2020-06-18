@@ -309,5 +309,4 @@ public class CourseGatewayImpl implements CourseGateway {
 		}
 	}
 
-
 }

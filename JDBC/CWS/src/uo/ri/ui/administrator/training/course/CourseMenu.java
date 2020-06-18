@@ -12,14 +12,10 @@ public class CourseMenu extends BaseMenu {
 	public CourseMenu() {
 		menuOptions = new Object[][] { { "Manager > Training management > Courses", null },
 
-				{ "Register course", RegisterCourseAction.class },
-				{ "Update course", UpdateCourseAction.class },
-				{ "Delete course", DeleteCourseAction.class  },
-				{ "List all courses", ListAllCourseAction.class },
+				{ "Register course", RegisterCourseAction.class }, { "Update course", UpdateCourseAction.class },
+				{ "Delete course", DeleteCourseAction.class }, { "List all courses", ListAllCourseAction.class },
 				{ "List course by id", ListCourseByIdAction.class } };
 
-
 	}
-
 
 }

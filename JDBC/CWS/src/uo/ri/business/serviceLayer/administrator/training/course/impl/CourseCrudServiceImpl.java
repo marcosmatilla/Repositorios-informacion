@@ -13,7 +13,7 @@ import uo.ri.business.transactionScripts.administrator.training.course.RegisterC
 import uo.ri.business.transactionScripts.administrator.training.course.UpdateCourse;
 import uo.ri.business.transactionScripts.vehicletype.ListAllVehicleType;
 
-public class CourseCrudServiceImpl implements CourseCrudService{
+public class CourseCrudServiceImpl implements CourseCrudService {
 
 	@Override
 	public CourseDto registerNew(CourseDto dto) throws BusinessException {
@@ -25,13 +25,13 @@ public class CourseCrudServiceImpl implements CourseCrudService{
 	public void updateCourse(CourseDto dto) throws BusinessException {
 		UpdateCourse uc = new UpdateCourse(dto);
 		uc.execute();
-		
+
 	}
 
 	@Override
 	public void deleteCourse(Long id) throws BusinessException {
 		DeleteCourse dc = new DeleteCourse(id);
-		dc.execute();		
+		dc.execute();
 	}
 
 	@Override
