@@ -48,4 +48,5 @@ public interface EnrollmentRepository extends Repository<Enrollment> {
 	Optional<Enrollment> findEnrollForCourseAndMechanic(String courseId,
 			String mechanicId);
 
+	List<Enrollment> findTrainingByMechanicId(String id);
 }

@@ -18,7 +18,7 @@ public class CourseReportServiceImpl implements CourseReportService {
 	@Override
 	public List<TrainingForMechanicRow> findTrainigByMechanicId(String id)
 			throws BusinessException {
-		return executor.execute(new ListTrainingOfMechanic());
+		return executor.execute(new ListTrainingOfMechanic(id));
 	}
 
 	@Override

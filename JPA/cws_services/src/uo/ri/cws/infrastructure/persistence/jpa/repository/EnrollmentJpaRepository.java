@@ -58,5 +58,15 @@ public class EnrollmentJpaRepository extends BaseJpaRepository<Enrollment>
 				.setParameter(1, courseId).setParameter(2, mechanicId)
 				.getResultStream().findFirst();
 	}
+	
+	@Override
+	public List<Enrollment> findTrainingByMechanicId(String id) {
+
+		List<Enrollment> i = Jpa.getManager()
+				.createNamedQuery("Enrollment.findEnrForMech", Enrollment.class)
+				.setParameter(1, id).getResultList();
+
+		return i;
+	}
 
 }
