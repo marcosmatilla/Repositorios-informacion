@@ -368,7 +368,6 @@ public class CourseAttendanceGatewayImpl implements CourseAttendanceGateway {
 				enrollment.passed = rs.getBoolean("passed");
 				enrollment.courseId = rs.getLong("course_id");
 				enrollment.mechanicId = rs.getLong("mechanic_id");
-				System.out.println(enrollment);
 
 				enrollments.add(enrollment);
 			}

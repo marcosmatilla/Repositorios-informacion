@@ -145,7 +145,6 @@ public class Course extends BaseEntity {
 			res += i;
 		}
 		Argument.isTrue(res == 100);
-		System.out.println(res);
 
 		Dedication d = null;
 		for (Map.Entry<VehicleType, Integer> entry : percentages.entrySet()) {
