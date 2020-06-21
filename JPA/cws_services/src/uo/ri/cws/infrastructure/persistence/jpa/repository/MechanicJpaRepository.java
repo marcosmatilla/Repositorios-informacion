@@ -1,5 +1,6 @@
 package uo.ri.cws.infrastructure.persistence.jpa.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import uo.ri.cws.application.repository.MechanicRepository;
@@ -19,5 +20,16 @@ public class MechanicJpaRepository extends BaseJpaRepository<Mechanic>
 				.createNamedQuery("Mechanic.findByDni", Mechanic.class)
 				.setParameter(1, dni).getResultStream().findFirst();
 	}
+
+	@Override
+	public List<Mechanic> findMechanicInEnrolls() {
+		return Jpa
+				.getManager()
+				.createNamedQuery("Mechanic.findMechanicInEnrolls",
+						Mechanic.class)
+				.getResultList();
+	}
+	
+	
 
 }

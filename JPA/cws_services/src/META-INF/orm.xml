@@ -64,6 +64,15 @@
 			where m.dni = ?1
 		</query>
 	</named-query>
+	
+		<named-query name="Mechanic.findMechanicInEnrolls">
+		<query>
+			select m 
+			from Mechanic m join Enrollment e
+			where m.id = e.mechanic.id and e.passed=true
+		</query>
+	</named-query>
+	
 
 	<!-- Enrollment queries -->
 	<named-query name="Enrollment.findAllVehicleTypes">

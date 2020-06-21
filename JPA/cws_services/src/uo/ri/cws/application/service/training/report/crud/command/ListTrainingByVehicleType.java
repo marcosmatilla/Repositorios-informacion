@@ -13,8 +13,7 @@ import uo.ri.cws.domain.Dedication;
 import uo.ri.cws.domain.Enrollment;
 import uo.ri.cws.domain.VehicleType;
 
-public class ListTrainingByVehicleType
-		implements Command<List<TrainingHoursRow>> {
+public class ListTrainingByVehicleType implements Command<List<TrainingHoursRow>> {
 	private TrainingRepository repo = Factory.repository.forTraining();
 
 	@Override
@@ -34,20 +33,16 @@ public class ListTrainingByVehicleType
 					if (checkMech(res, e, v.getName())) {
 						for (TrainingHoursRow tr : res) {
 							if (tr.mechanicFullName
-									.equals(e.getMechanic().getName() + " "
-											+ e.getMechanic().getSurname())) {
-								tr.enrolledHours += (d.getPercentage()
-										* e.getAttendance()
-										* d.getCourse().getHours()) / 10000;
+									.equals(e.getMechanic().getName() + " " + e.getMechanic().getSurname())) {
+								totalHoras += (d.getPercentage() * e.getAttendance() * d.getCourse().getHours())
+										/ 10000;
 							}
 						}
 					} else {
 						TrainingHoursRow t = new TrainingHoursRow();
-						t.mechanicFullName = e.getMechanic().getName() + " "
-								+ e.getMechanic().getSurname();
+						t.mechanicFullName = e.getMechanic().getName() + " " + e.getMechanic().getSurname();
 						t.vehicleTypeName = v.getName();
-						totalHoras = (d.getPercentage() * e.getAttendance()
-								* d.getCourse().getHours()) / 10000;
+						totalHoras = (d.getPercentage() * e.getAttendance() * d.getCourse().getHours()) / 10000;
 						t.enrolledHours = totalHoras;
 						res.add(t);
 					}
@@ -59,16 +54,13 @@ public class ListTrainingByVehicleType
 
 	}
 
-	private boolean checkMech(List<TrainingHoursRow> res, Enrollment e,
-			String vname) {
+	private boolean checkMech(List<TrainingHoursRow> res, Enrollment e, String vname) {
 		for (TrainingHoursRow tr : res) {
-			if (tr.mechanicFullName.equals(e.getMechanic().getName() + " "
-					+ e.getMechanic().getSurname())
+			if (tr.mechanicFullName.equals(e.getMechanic().getName() + " " + e.getMechanic().getSurname())
 					&& tr.vehicleTypeName.equals(vname)) {
 				return true;
 			}
 		}
 		return false;
 	}
-
 }
