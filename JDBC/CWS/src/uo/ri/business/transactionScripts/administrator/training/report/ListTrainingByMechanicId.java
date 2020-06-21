@@ -41,9 +41,6 @@ public class ListTrainingByMechanicId {
 				hoursAttended += (int) (courseHours * attendance * percentage) / 10000;
 			}
 
-			System.out.println("totalHours " + totalHours);
-			System.out.println("hoursAttended " + hoursAttended);
-
 			TrainingForMechanicRow training = new TrainingForMechanicRow();
 
 			training.vehicleTypeName = vehicle.name;
