@@ -2,6 +2,9 @@ package uo.ri.cws.application.service.training.course.crud.command;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,27 +20,47 @@ import uo.ri.cws.domain.Course;
 import uo.ri.cws.domain.VehicleType;
 
 public class AddCourse implements Command<CourseDto> {
-	private CourseDto dto;
+	private CourseDto course;
 	private CourseRepository repo = Factory.repository.forCourse();
 	private VehicleTypeRepository repoV = Factory.repository.forVehicleType();
 
 	public AddCourse(CourseDto course) {
-		this.dto = course;
+		this.course = course;
 	}
 
 	@Override
 	public CourseDto execute() throws BusinessException {
-		checkDto(dto);
-		checkDoesNotExist(dto.code);
+		checkDto(course);
+		checkDoesNotExist(course.code);
 		checkPercentages();
-		chekVehicleType(dto.percentages.keySet());
+		chekVehicleType(course.percentages.keySet());
 
-		Course c = new Course(dto.code, dto.name, dto.description,
-				dto.startDate, dto.endDate, dto.hours);
+		Course c = new Course(course.code, course.name, course.description,
+				course.startDate, course.endDate, course.hours);
 
 		repo.add(c);
-		dto.id = c.getId();
-		return dto;
+		course.id = c.getId();
+		
+		Map<VehicleType, Integer> dedications = new HashMap<VehicleType, Integer>();
+		for (Entry<String, Integer> entry : course.percentages.entrySet())
+		{
+			checkVehicle(entry.getKey());
+			VehicleType vehicleType = repoV.findById(entry.getKey()).get();
+			System.out.println(vehicleType);
+
+			dedications.put(vehicleType, entry.getValue());
+		}
+		c.addDedications(dedications);
+		
+		return course;
+	}
+
+	
+
+	private void checkVehicle(String key) throws BusinessException {
+		Optional<VehicleType> vehicleType = repoV.findById(key);
+		BusinessCheck.exists(vehicleType,
+				"The vehicleType does not exist");
 	}
 
 	private void chekVehicleType(Set<String> keySet) throws BusinessException {
@@ -50,11 +73,12 @@ public class AddCourse implements Command<CourseDto> {
 
 	private void checkPercentages() throws BusinessException {
 		int res = 0;
-		Collection<Integer> n = dto.percentages.values();
+		Collection<Integer> n = course.percentages.values();
 		for (Integer i : n) {
 			BusinessCheck.isTrue(i > 0);
 			res += i;
 		}
+		System.out.println(res);
 		Argument.isTrue(res == 100);
 	}
 

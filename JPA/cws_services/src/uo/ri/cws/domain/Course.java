@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -29,7 +30,7 @@ public class Course extends BaseEntity {
 	private Date endDate;
 	private int hours;
 
-	@OneToMany(mappedBy = "course")
+	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
 	private Set<Dedication> dedications = new HashSet<>();
 
 	@OneToMany(mappedBy = "course")
@@ -144,6 +145,7 @@ public class Course extends BaseEntity {
 			res += i;
 		}
 		Argument.isTrue(res == 100);
+		System.out.println(res);
 
 		Dedication d = null;
 		for (Map.Entry<VehicleType, Integer> entry : percentages.entrySet()) {
