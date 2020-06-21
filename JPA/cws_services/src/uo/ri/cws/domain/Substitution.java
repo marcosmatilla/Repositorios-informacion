@@ -18,7 +18,7 @@ public class Substitution extends BaseEntity {
 	private Intervention intervention;
 	private int quantity;
 
-	public Substitution() {
+	 Substitution() {
 
 	}
 

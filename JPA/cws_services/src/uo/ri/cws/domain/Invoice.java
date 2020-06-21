@@ -46,7 +46,7 @@ public class Invoice extends BaseEntity {
 	@OneToMany(mappedBy = "invoice")
 	private Set<Charge> charges = new HashSet<>();
 
-	public Invoice() {
+	 Invoice() {
 
 	}
 
@@ -178,7 +178,7 @@ public class Invoice extends BaseEntity {
 				setVat(21.0);
 			}
 		} catch (ParseException e) {
-			e.printStackTrace();
+			throw new IllegalStateException("Formato de fecha incorrecto");
 		}
 
 		amount = 0L;

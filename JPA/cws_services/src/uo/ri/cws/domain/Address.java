@@ -10,7 +10,7 @@ public class Address {
 	private String city;
 	private String zipCode;
 
-	public Address() {
+	Address() {
 
 	}
 

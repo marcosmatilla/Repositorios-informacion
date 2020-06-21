@@ -31,7 +31,7 @@ public class Vehicle extends BaseEntity {
 	@OneToMany(mappedBy = "vehicle")
 	private Set<WorkOrder> workorders = new HashSet<>();
 
-	public Vehicle() {
+	 Vehicle() {
 
 	}
 

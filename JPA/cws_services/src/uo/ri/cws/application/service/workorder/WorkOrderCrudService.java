@@ -12,48 +12,72 @@ import uo.ri.cws.application.service.BusinessException;
 public interface WorkOrderCrudService {
 
 	/**
-	 * Busca una orden de trabajo por el identificador
-	 * 
-	 * @param woId identificador de la orden de trabajo
-	 * @return un optional, con la orden de trabajo en caso de existir
-	 * @throws BusinessException si el id de la orden de trabajo no existe
+	 * Registers a new work order out of the data received. Only this fields will be
+	 * taken into account: - the vehicle id, and - the description of the work to be
+	 * done The rest of fields will assigned by the service, thus any provided value
+	 * will be ignored.
+	 *
+	 * @param dto. Just vehicle id and description.
+	 *
+	 * @return another dto with the provided values and service-assigned fields
+	 *         filled: id, date and status
+	 *
+	 * @throws BusinessException if: - there is another work order for the same
+	 *                           vehicle at the same date and time (timestamp), or -
+	 *                           the vehicle does not exist
 	 */
-	Optional<WorkOrderDto> findWorkOrderById(String woId)
-			throws BusinessException;
+	WorkOrderDto registerNew(WorkOrderDto dto) throws BusinessException;
 
 	/**
-	 * Busca las ordenes de trabajo por la matricula del vehiculo
-	 * 
-	 * @param plate la matricula del vehiculo del que buscamos las workorder
-	 * @return una lista con las work order asociadas a esa matricula
-	 * @throws BusinessException si la matricula que buscamos no existe
+	 * Updates the description of the work order specified by the id and version
+	 * fields. No other field is taken for the update. Only work orders with status
+	 * of OPEN or ASSIGNED can be updated.
+	 *
+	 * @param dto, with work order id, version and description.
+	 *
+	 * @throws BusinessException if: - there is no work order with that id, or -
+	 *                           there work order has not the specified version
+	 *                           (optimistic lock), or - the work order is not in
+	 *                           the OPEN or ASSIGNED status
 	 */
-	List<WorkOrderDto> findWorkOrdersByPlateNumber(String plate)
-			throws BusinessException;
+	void updateWorkOrder(WorkOrderDto dto) throws BusinessException;
 
 	/**
-	 * Registra una nueva workOrder
-	 * 
-	 * @param wo la orden de trabajo que quereoms registrar
-	 * @throws BusinessException si la workorder no existe
+	 * Removes the work order form the system if it still do not have interventions.
+	 *
+	 * @param id, of the work order
+	 *
+	 * @throws BusinessException if: - the work order does not exist, or - there
+	 *                           already is some intervention registered.
 	 */
-	void registerNew(WorkOrderDto wo) throws BusinessException;
+	void deleteWorkOrder(String id) throws BusinessException;
 
 	/**
-	 * Elimina una orden de trabajo
-	 * 
-	 * @param woId el identificador de la orden de trabajo que queremos eliminar
-	 * @throws BusinessException si el identificador no existe
+	 * @param woId, id of the work order
+	 * @return the optional filled if the work order exists
+	 * @throws BusinessException
 	 */
-	void deleteWorkOrder(String woId) throws BusinessException;
+	Optional<WorkOrderDto> findWorkOrderById(String woId) throws BusinessException;
 
 	/**
-	 * Actualiza una orden de trabajo
+	 * Returns a list of work orders registered for the specified vehicle id
 	 * 
-	 * @param wo con la work order que queremos actualizar
-	 * @throws BusinessException si no existe
+	 * @param id
+	 * @return the list, will be empty if: - the vehicle does not exist, or - it has
+	 *         no work orders registered.
+	 * @throws BusinessException, DOES NOT
 	 */
-	void updateWorkOrder(WorkOrderDto wo) throws BusinessException;
+	List<WorkOrderDto> findWorkOrdersByVehicleId(String id) throws BusinessException;
+
+	/**
+	 * Returns a list of work orders registered for the specified plate number
+	 * 
+	 * @param plate
+	 * @return the list, will be empty if: - the vehicle does not exist, or - it has
+	 *         no work orders registered.
+	 * @throws BusinessException, DOES NOT
+	 */
+	List<WorkOrderDto> findWorkOrdersByPlateNumber(String plate) throws BusinessException;
 
 	/**
 	 * Lista todas las work order que tenemos
@@ -61,5 +85,5 @@ public interface WorkOrderCrudService {
 	 * @return una lista con todas las workorder
 	 * @throws BusinessException
 	 */
-	List<WorkOrderDto> findAllWorkOrders() throws BusinessException;
+	/* List<WorkOrderDto> findAllWorkOrders() throws BusinessException; */
 }

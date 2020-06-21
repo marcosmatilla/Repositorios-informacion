@@ -22,7 +22,7 @@ public class Certificate extends BaseEntity {
 	@Temporal(TemporalType.DATE)
 	private Date date;
 
-	public Certificate() {
+	 Certificate() {
 
 	}
 

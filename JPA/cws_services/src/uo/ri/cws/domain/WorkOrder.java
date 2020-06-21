@@ -41,7 +41,7 @@ public class WorkOrder extends BaseEntity {
 	@OneToMany(mappedBy = "workOrder")
 	private Set<Intervention> interventions = new HashSet<Intervention>();
 
-	public WorkOrder() {
+	 WorkOrder() {
 
 	}
 
@@ -101,10 +101,6 @@ public class WorkOrder extends BaseEntity {
 	}
 
 	void _setMechanic(Mechanic mechanic) {
-		this.mechanic = mechanic;
-	}
-
-	public void setMechanic(Mechanic mechanic) {
 		this.mechanic = mechanic;
 	}
 

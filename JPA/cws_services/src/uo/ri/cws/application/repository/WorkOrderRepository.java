@@ -1,9 +1,11 @@
 package uo.ri.cws.application.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import uo.ri.cws.application.service.workorder.WorkOrderDto;
 import uo.ri.cws.domain.Certificate;
+import uo.ri.cws.domain.VehicleType;
 import uo.ri.cws.domain.WorkOrder;
 
 public interface WorkOrderRepository extends Repository<WorkOrder> {
@@ -55,5 +57,10 @@ public interface WorkOrderRepository extends Repository<WorkOrder> {
 	 * @return
 	 */
 	List<WorkOrder> workOrderAtSameTime(WorkOrderDto workOrder);
+	
+	
+	Optional<VehicleType> findVehicleType(Optional<WorkOrder> wo);
+	
+	List<WorkOrder> findWorkOrderByVehicleId(String vehicleId);
 
 }

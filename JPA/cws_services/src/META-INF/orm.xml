@@ -44,6 +44,14 @@
 		<query>select w from WorkOrder w where w.vehicle.id = ?1 and w.date = ?2</query>
 	</named-query>
 
+	<named-query name="WorkOrder.findVehicleType">
+		<query>select a.vehicle.vehicleType from WorkOrder a where 
+		a.id=?1</query>
+	</named-query>
+	
+	
+
+
 	<!-- PaymentMean queries -->
 	<named-query name="PaymentMean.findByInvoiceId">
 		<query>
@@ -64,15 +72,15 @@
 			where m.dni = ?1
 		</query>
 	</named-query>
-	
-		<named-query name="Mechanic.findMechanicInEnrolls">
+
+	<named-query name="Mechanic.findMechanicInEnrolls">
 		<query>
 			select m 
 			from Mechanic m join Enrollment e
 			where m.id = e.mechanic.id and e.passed=true
 		</query>
 	</named-query>
-	
+
 
 	<!-- Enrollment queries -->
 	<named-query name="Enrollment.findAllVehicleTypes">

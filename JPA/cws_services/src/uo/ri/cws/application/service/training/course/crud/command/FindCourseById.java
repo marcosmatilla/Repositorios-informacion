@@ -24,6 +24,7 @@ public class FindCourseById implements Command<Optional<CourseDto>> {
 		if(!oc.isPresent()) {
 			return null;
 		}
+		
 		return oc.map(c -> DtoAssembler.toDto(c));
 	}
 

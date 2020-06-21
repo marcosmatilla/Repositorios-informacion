@@ -14,24 +14,27 @@ import uo.ri.cws.application.util.command.Command;
 import uo.ri.cws.domain.Vehicle;
 import uo.ri.cws.domain.WorkOrder;
 
-public class FindWorkOrdersByPlateNumber implements Command<List<WorkOrderDto>> {
-	private String plateNumber;
-	private WorkOrderRepository repoW = Factory.repository.forWorkOrder();
+public class FindWorkOrderByVehicleId implements Command<List<WorkOrderDto>> {
+	
+	private String idVehicle;
+	
+	private WorkOrderRepository repo = Factory.repository.forWorkOrder();
 	private VehicleRepository repoV = Factory.repository.forVehicle();
 
-	public FindWorkOrdersByPlateNumber(String plateNumber) {
-		this.plateNumber = plateNumber;
+	public FindWorkOrderByVehicleId(String idVehicle) {
+		this.idVehicle = idVehicle;
 	}
 
 	@Override
 	public List<WorkOrderDto> execute() throws BusinessException {
-		BusinessCheck.isNotEmpty(this.plateNumber, "The plate cannot be empty");
-		BusinessCheck.isNotNull(this.plateNumber, "The plate cannot be null");
-		Optional<Vehicle> vehicle = repoV.findByPlate(plateNumber);
+		BusinessCheck.isNotEmpty(this.idVehicle, "The id cannot be empty");
+		BusinessCheck.isNotNull(this.idVehicle, "The id cannot be null");
+		
+		Optional<Vehicle> vehicle = repoV.findById(idVehicle);
 
-		BusinessCheck.exists(vehicle, "plate number does not exist");
+		BusinessCheck.exists(vehicle, "ID does not exist");
 
-		List<WorkOrder> wo = repoW.findByPlateNumber(plateNumber);
+		List<WorkOrder> wo = repo.findWorkOrderByVehicleId(idVehicle);
 
 		return DtoAssembler.toWorkOrderDtoList(wo);
 	}

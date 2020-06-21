@@ -20,7 +20,7 @@ public class Enrollment extends BaseEntity {
 	private int attendance;
 	private boolean passed;
 
-	public Enrollment() {
+	 Enrollment() {
 
 	}
 
@@ -61,7 +61,7 @@ public class Enrollment extends BaseEntity {
 		this.course = course;
 	}
 
-	public Object getAttendedHoursFor(VehicleType other) {
+	public int getAttendedHoursFor(VehicleType other) {
 		Set<Dedication> hours = getCourse().getDedications();
 		for (Dedication d : hours) {
 			if (d.getVehicleType().equals(other)) {

@@ -27,10 +27,8 @@ public class UpdateWorkOrder implements Command<Void> {
 		Optional<WorkOrder> wo = repo.findById(workOrder.id);
 		BusinessCheck.exists(wo, "Work Order does not exist");
 
-		BusinessCheck.isTrue(
-				wo.get().getStatus().equals(WorkOrderStatus.OPEN) && wo.get()
-						.getStatus().equals(WorkOrderStatus.ASSIGNED),
-				"work order is not open or assign");
+		BusinessCheck.isTrue(wo.get().getStatus().equals(WorkOrderStatus.OPEN)
+				|| wo.get().getStatus().equals(WorkOrderStatus.ASSIGNED), "work order is not open or assign");
 
 		WorkOrder w = wo.get();
 		BusinessCheck.hasVersion(w, workOrder.version);

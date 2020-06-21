@@ -23,7 +23,7 @@ public class CreditCard extends PaymentMean {
 	@Temporal(TemporalType.DATE)
 	private Date validThru;
 
-	public CreditCard() {
+	 CreditCard() {
 
 	}
 

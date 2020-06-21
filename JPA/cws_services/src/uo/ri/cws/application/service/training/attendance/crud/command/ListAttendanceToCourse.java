@@ -10,6 +10,7 @@ import uo.ri.cws.application.repository.EnrollmentRepository;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.mechanic.MechanicDto;
 import uo.ri.cws.application.service.training.EnrollmentDto;
+import uo.ri.cws.application.service.training.course.CourseDto;
 import uo.ri.cws.application.util.BusinessCheck;
 import uo.ri.cws.application.util.command.Command;
 import uo.ri.cws.domain.Course;
@@ -41,6 +42,9 @@ public class ListAttendanceToCourse implements Command<List<EnrollmentDto>> {
 			enroll.mechanic.name = e.getMechanic().getName();
 			enroll.mechanic.surname = e.getMechanic().getSurname();
 			enroll.passed = e.isPassed();
+			enroll.course = new CourseDto();
+			enroll.course.id = e.getCourse().getId();
+			
 			res.add(enroll);
 
 		}

@@ -36,7 +36,7 @@ public class Course extends BaseEntity {
 	@OneToMany(mappedBy = "course")
 	private Set<Enrollment> enrollments = new HashSet<>();
 
-	public Course() {
+	 Course() {
 
 	}
 

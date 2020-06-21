@@ -33,7 +33,7 @@ public class Intervention extends BaseEntity {
 	@OneToMany(mappedBy = "intervention")
 	private Set<Substitution> subtitutions = new HashSet<>();
 
-	public Intervention() {
+	 Intervention() {
 
 	}
 

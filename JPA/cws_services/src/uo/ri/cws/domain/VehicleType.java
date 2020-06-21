@@ -27,7 +27,7 @@ public class VehicleType extends BaseEntity {
 	@OneToMany(mappedBy = "vehicleType")
 	private Set<Dedication> dedications = new HashSet<>();
 
-	public VehicleType() {
+	 VehicleType() {
 
 	}
 

@@ -21,7 +21,7 @@ public class SparePart extends BaseEntity {
 	@OneToMany(mappedBy = "sparePart")
 	private Set<Substitution> substitutions = new HashSet<Substitution>();
 
-	public SparePart() {
+	 SparePart() {
 
 	}
 

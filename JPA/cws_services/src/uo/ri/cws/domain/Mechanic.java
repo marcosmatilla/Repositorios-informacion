@@ -31,7 +31,7 @@ public class Mechanic extends BaseEntity {
 	@OneToMany(mappedBy = "mechanic")
 	private Set<Enrollment> enrollments = new HashSet<Enrollment>();
 
-	public Mechanic() {
+	 Mechanic() {
 
 	}
 

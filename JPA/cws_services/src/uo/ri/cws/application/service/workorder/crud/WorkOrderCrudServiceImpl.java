@@ -7,8 +7,8 @@ import uo.ri.conf.Factory;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.service.workorder.WorkOrderCrudService;
 import uo.ri.cws.application.service.workorder.WorkOrderDto;
-import uo.ri.cws.application.service.workorder.crud.command.FindAllWorkOrders;
 import uo.ri.cws.application.service.workorder.crud.command.FindWorkOrderById;
+import uo.ri.cws.application.service.workorder.crud.command.FindWorkOrderByVehicleId;
 import uo.ri.cws.application.service.workorder.crud.command.FindWorkOrdersByPlateNumber;
 import uo.ri.cws.application.service.workorder.crud.command.RegisterNewWorkOrder;
 import uo.ri.cws.application.service.workorder.crud.command.RemoveWorkOrder;
@@ -31,8 +31,8 @@ public class WorkOrderCrudServiceImpl implements WorkOrderCrudService {
 	}
 
 	@Override
-	public void registerNew(WorkOrderDto wo) throws BusinessException {
-		executor.execute(new RegisterNewWorkOrder(wo));
+	public WorkOrderDto registerNew(WorkOrderDto wo) throws BusinessException {
+		return executor.execute(new RegisterNewWorkOrder(wo));
 
 	}
 
@@ -48,9 +48,15 @@ public class WorkOrderCrudServiceImpl implements WorkOrderCrudService {
 
 	}
 
-	@Override
+	/*@Override
 	public List<WorkOrderDto> findAllWorkOrders() throws BusinessException {
 		return executor.execute(new FindAllWorkOrders());
+	}*/
+
+
+	@Override
+	public List<WorkOrderDto> findWorkOrdersByVehicleId(String id) throws BusinessException {
+		return executor.execute(new FindWorkOrderByVehicleId(id));
 	}
 
 }

@@ -21,7 +21,7 @@ public class Charge extends BaseEntity {
 
 	private double amount;
 
-	public Charge() {
+	 Charge() {
 
 	}
 

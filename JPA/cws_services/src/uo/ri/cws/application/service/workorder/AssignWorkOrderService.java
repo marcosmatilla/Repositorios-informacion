@@ -14,8 +14,7 @@ public interface AssignWorkOrderService {
 	 * @param mId  del mecanico a asignar
 	 * @throws BusinessException si no existe alguno de los dos
 	 */
-	void assignWorkOrderToMechanic(String woId, String mId)
-			throws BusinessException;
+	void assignWorkOrderToMechanic(String woId, String mId) throws BusinessException;
 
 	/**
 	 * Busca y lista los certificados por tipo de vehiculo
@@ -24,8 +23,7 @@ public interface AssignWorkOrderService {
 	 * @return lista con los certificados por tipo de vehiculo
 	 * @throws BusinessException si no existe el id del vehiculo
 	 */
-	List<CertificateDto> findCertificatesByVehicleTypeId(String vtId)
-			throws BusinessException;
+	List<CertificateDto> findCertificatesByVehicleTypeId(String vtId) throws BusinessException;
 
 	/**
 	 * Lista las ordenes de trabajo que no estan terminadas y las muestra

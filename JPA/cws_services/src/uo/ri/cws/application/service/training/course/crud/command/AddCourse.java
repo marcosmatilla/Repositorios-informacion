@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
-import alb.util.assertion.Argument;
 import uo.ri.conf.Factory;
 import uo.ri.cws.application.repository.CourseRepository;
 import uo.ri.cws.application.repository.VehicleTypeRepository;
@@ -34,6 +33,7 @@ public class AddCourse implements Command<CourseDto> {
 		checkDoesNotExist(course.code);
 		checkPercentages();
 		chekVehicleType(course.percentages.keySet());
+		
 
 		Course c = new Course(course.code, course.name, course.description,
 				course.startDate, course.endDate, course.hours);
@@ -46,8 +46,6 @@ public class AddCourse implements Command<CourseDto> {
 		{
 			checkVehicle(entry.getKey());
 			VehicleType vehicleType = repoV.findById(entry.getKey()).get();
-			System.out.println(vehicleType);
-
 			dedications.put(vehicleType, entry.getValue());
 		}
 		c.addDedications(dedications);
@@ -78,8 +76,7 @@ public class AddCourse implements Command<CourseDto> {
 			BusinessCheck.isTrue(i > 0);
 			res += i;
 		}
-		System.out.println(res);
-		Argument.isTrue(res == 100);
+		BusinessCheck.isTrue(res == 100);
 	}
 
 	private void checkDoesNotExist(String code) throws BusinessException {
@@ -90,8 +87,11 @@ public class AddCourse implements Command<CourseDto> {
 
 	private void checkDto(CourseDto dto) throws BusinessException {
 		BusinessCheck.isNotEmpty(dto.code, "Empty code");
+		BusinessCheck.isNotNull(dto.code, "null code");
 		BusinessCheck.isNotEmpty(dto.name, "Empty name");
+		BusinessCheck.isNotNull(dto.name, "null name");
 		BusinessCheck.isNotEmpty(dto.description, "Empty description");
+		BusinessCheck.isNotNull(dto.description, "null description");
 		BusinessCheck.isNotNull(dto.startDate, "Empty start date");
 		BusinessCheck.isNotNull(dto.endDate, "Empty end date");
 		BusinessCheck.isTrue(dto.hours > 0, "Negative hours");

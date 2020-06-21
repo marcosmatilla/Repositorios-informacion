@@ -1,10 +1,12 @@
 package uo.ri.cws.infrastructure.persistence.jpa.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import uo.ri.cws.application.repository.WorkOrderRepository;
 import uo.ri.cws.application.service.workorder.WorkOrderDto;
 import uo.ri.cws.domain.Certificate;
+import uo.ri.cws.domain.VehicleType;
 import uo.ri.cws.domain.WorkOrder;
 import uo.ri.cws.infrastructure.persistence.jpa.util.BaseJpaRepository;
 import uo.ri.cws.infrastructure.persistence.jpa.util.Jpa;
@@ -81,6 +83,19 @@ public class WorkOrderJpaRepository extends BaseJpaRepository<WorkOrder>
 						WorkOrder.class)
 				.setParameter(1, workOrder.vehicleId)
 				.setParameter(2, workOrder.date).getResultList();
+	}
+
+	@Override
+	public Optional<VehicleType> findVehicleType(Optional<WorkOrder> wo) {
+		return Jpa.getManager()
+				.createNamedQuery("WorkOrder.findVehicleType", VehicleType.class)
+				.setParameter(1, wo.get().getId()).getResultStream()
+				.findFirst();
+	}
+
+	@Override
+	public List<WorkOrder> findWorkOrderByVehicleId(String vehicleId) {
+		return Jpa.getManager().createNamedQuery("WorkOrder.findVehicleById", WorkOrder.class).setParameter(1, vehicleId).getResultList();
 	}
 
 }

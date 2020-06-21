@@ -29,7 +29,7 @@ public class Client extends BaseEntity {
 	@OneToMany(mappedBy = "client")
 	private Set<PaymentMean> paymentMeans = new HashSet<>();
 
-	public Client() {
+	 Client() {
 
 	}
 

@@ -23,8 +23,7 @@ public class RemoveCourses implements Command<Void> {
 		BusinessCheck.exists(oc, "The course does not exist");
 
 		Course c = oc.get();
-		BusinessCheck.isTrue(c.getDedications().isEmpty(),
-				"course has dedications");
+		
 		BusinessCheck.isTrue(c.getEnrollments().isEmpty(),
 				"course has enrollments");
 

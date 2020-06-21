@@ -15,7 +15,7 @@ public class Voucher extends PaymentMean {
 	private double available;
 	private String description;
 
-	public Voucher() {
+	 Voucher() {
 
 	}
 

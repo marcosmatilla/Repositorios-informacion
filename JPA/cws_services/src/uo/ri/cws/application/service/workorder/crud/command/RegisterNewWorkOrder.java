@@ -13,7 +13,7 @@ import uo.ri.cws.application.util.command.Command;
 import uo.ri.cws.domain.Vehicle;
 import uo.ri.cws.domain.WorkOrder;
 
-public class RegisterNewWorkOrder implements Command<Void> {
+public class RegisterNewWorkOrder implements Command<WorkOrderDto> {
 	private WorkOrderDto workOrder;
 
 	private WorkOrderRepository repoW = Factory.repository.forWorkOrder();
@@ -24,7 +24,7 @@ public class RegisterNewWorkOrder implements Command<Void> {
 	}
 
 	@Override
-	public Void execute() throws BusinessException {
+	public WorkOrderDto execute() throws BusinessException {
 		BusinessCheck.isNotEmpty(workOrder.vehicleId, "vehicle id is empty");
 		BusinessCheck.isNotEmpty(workOrder.description, "description is empty");
 
@@ -42,8 +42,10 @@ public class RegisterNewWorkOrder implements Command<Void> {
 		repoW.add(w);
 
 		workOrder.id = w.getId();
-
-		return null;
+		workOrder.date = w.getDate();
+		workOrder.description = w.getDescription();
+	
+		return workOrder;
 	}
 
 }

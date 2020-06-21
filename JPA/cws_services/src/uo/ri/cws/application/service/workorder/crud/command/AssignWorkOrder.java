@@ -1,12 +1,10 @@
 package uo.ri.cws.application.service.workorder.crud.command;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import uo.ri.conf.Factory;
-import uo.ri.cws.application.repository.CertificateRepository;
 import uo.ri.cws.application.repository.MechanicRepository;
-import uo.ri.cws.application.repository.VehicleTypeRepository;
 import uo.ri.cws.application.repository.WorkOrderRepository;
 import uo.ri.cws.application.service.BusinessException;
 import uo.ri.cws.application.util.BusinessCheck;
@@ -20,8 +18,6 @@ import uo.ri.cws.domain.WorkOrder.WorkOrderStatus;
 public class AssignWorkOrder implements Command<Void> {
 	private MechanicRepository repoM = Factory.repository.forMechanic();
 	private WorkOrderRepository repoW = Factory.repository.forWorkOrder();
-	private VehicleTypeRepository repoV = Factory.repository.forVehicleType();
-	private CertificateRepository repoC = Factory.repository.forCerticiate();
 
 	private String workOrderId;
 	private String mechanicId;
@@ -39,27 +35,19 @@ public class AssignWorkOrder implements Command<Void> {
 		Optional<Mechanic> om = repoM.findById(mechanicId);
 		BusinessCheck.exists(om, "The mechanic does not exist");
 
-		List<VehicleType> vTypes = repoV.findAll();
+		BusinessCheck.isTrue(wo.get().getStatus().equals(WorkOrderStatus.OPEN), "work order in not open");
+		
+		Optional<VehicleType> v = repoW.findVehicleType(wo);
 
-		List<Certificate> certificates = repoC.findAll();
-
-		for (VehicleType v : vTypes) {
-			for (Certificate c : certificates) {
-				if (c.getVehicleType().equals(v)) {
-					WorkOrder w = wo.get();
-					Mechanic m = om.get();
-					w.assignTo(m);
-				} else {
-					throw new BusinessException(
-							"mechanic is not certified for that vehicle type");
-				}
+		Set<Certificate> cert = om.get().getCertificates();
+		for (Certificate c : cert) {
+			if (c.getVehicleType().equals(v.get())) {
+				wo.get().assignTo(om.get());
+				return null;
 			}
 		}
+		throw new BusinessException("Mechanic is not certified");
 
-		BusinessCheck.isTrue(wo.get().getStatus().equals(WorkOrderStatus.OPEN),
-				"work order in not open");
-
-		return null;
 	}
 
 }

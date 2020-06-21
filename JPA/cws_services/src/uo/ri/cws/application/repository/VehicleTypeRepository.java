@@ -13,4 +13,5 @@ public interface VehicleTypeRepository extends Repository<VehicleType> {
 	 */
 	List<VehicleType> findAll();
 
+
 }
