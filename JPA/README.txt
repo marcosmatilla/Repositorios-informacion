@@ -11,4 +11,3 @@ Caso uso: uo % 3 == 2
 Además también he implementado:
 *Listado de mecánicos certificados para cada tipo de vehículo
 *Gestión de asistencia a cursos
-*Listado de horas de formación de un mecánico
