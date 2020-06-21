@@ -21,6 +21,9 @@ public class FindCourseById implements Command<Optional<CourseDto>> {
 	@Override
 	public Optional<CourseDto> execute() throws BusinessException {
 		Optional<Course> oc = repo.findById(id);
+		if(!oc.isPresent()) {
+			return null;
+		}
 		return oc.map(c -> DtoAssembler.toDto(c));
 	}
 
