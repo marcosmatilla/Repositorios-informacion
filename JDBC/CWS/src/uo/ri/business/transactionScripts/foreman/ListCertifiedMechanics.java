@@ -9,6 +9,7 @@ import uo.ri.business.dto.CertificateDto;
 import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
 import uo.ri.persistance.foreman.WorkOrderGateway;
+import uo.ri.persistance.vehicletype.VehicleTypeGateway;
 
 public class ListCertifiedMechanics {
 	private Long id;
@@ -20,7 +21,13 @@ public class ListCertifiedMechanics {
 	public List<CertificateDto> execute() throws BusinessException {
 		try (Connection c = Jdbc.createThreadConnection();) {
 			WorkOrderGateway wog = PersistenceFactory.getWorkOrderGateway();
+			VehicleTypeGateway vg = PersistenceFactory.getVehicleTypeGateway();
 			wog.setConnection(c);
+			vg.setConnection(c);
+			if(vg.findById(id) == null) {
+				c.rollback();
+				throw new BusinessException("vehicle type does not exist");
+			}
 			return wog.findCertificatesByVehicleTypeId(id);
 
 		} catch (SQLException e) {

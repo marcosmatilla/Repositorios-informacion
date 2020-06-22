@@ -2,7 +2,6 @@ package uo.ri.persistance.foreman;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.List;
 
 import uo.ri.business.dto.CertificateDto;
@@ -159,5 +158,5 @@ public interface WorkOrderGateway {
 	/*
 	 * find workorder for id
 	 */
-	WorkOrderDto findWorkOrderForId(Long mechanicId, Timestamp time) throws SQLException;
+	WorkOrderDto findWorkOrderForId(Long vehicleType, String description, String status) throws SQLException;
 }

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,12 +31,9 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 
 			pst.setLong(1, workorder.vehicleId);
 			pst.setString(2, workorder.description);
-			/*
-			 * Date date = new Date(); pst.setDate(3, new java.sql.Date(date.getTime()));
-			 * pst.setString(4, "OPEN");
-			 */
-			pst.setTimestamp(3, workorder.date);
-			pst.setString(4, workorder.status);
+			Date date = new Date();
+			pst.setDate(3, new java.sql.Date(date.getTime()));
+			pst.setString(4, "OPEN");
 			pst.executeUpdate();
 
 		} catch (SQLException e) {
@@ -422,15 +418,16 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 	}
 
 	@Override
-	public WorkOrderDto findWorkOrderForId(Long mechanicId, Timestamp time) throws SQLException {
+	public WorkOrderDto findWorkOrderForId(Long vehicleType, String description, String status) throws SQLException {
 		WorkOrderDto workorder = null;
 
 		PreparedStatement pst = con.prepareStatement(Conf.getInstance().getProperty("SQL_FIND_WORKORDER_FOR_ID"));
 		ResultSet rs = null;
 
 		try {
-			pst.setLong(1, mechanicId);
-			pst.setTimestamp(2, time);
+			pst.setLong(1, vehicleType);
+			pst.setString(2, description);
+			pst.setString(3, status);
 
 			rs = pst.executeQuery();
 
@@ -455,5 +452,6 @@ public class WorkOrderGatewayImpl implements WorkOrderGateway {
 		}
 		return workorder;
 	}
+
 
 }

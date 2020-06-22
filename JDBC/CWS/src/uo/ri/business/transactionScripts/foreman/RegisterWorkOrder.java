@@ -2,7 +2,6 @@ package uo.ri.business.transactionScripts.foreman;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 
 import alb.util.jdbc.Jdbc;
 import uo.ri.business.dto.WorkOrderDto;
@@ -51,12 +50,11 @@ public class RegisterWorkOrder {
 			}
 			wog.registerNew(workOrder);
 			c.commit();
-			// Insertar datos en el dto para devolver
-			workOrder.status = "OPEN";
-			Timestamp time = new Timestamp(System.currentTimeMillis());
-			workOrder.date = time;
-			WorkOrderDto forId = wog.findWorkOrderForId(workOrder.mechanicId, workOrder.date);
-			workOrder.id = forId.id;
+
+//			WorkOrderDto forId = wog.findWorkOrderForId(workOrder.vehicleId, workOrder.description, workOrder.status);
+
+//			workOrder.id = forId.id;
+
 			return workOrder;
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexion");

@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import alb.util.jdbc.Jdbc;
 import uo.ri.business.dto.WorkOrderDto;
+import uo.ri.business.exception.BusinessException;
 import uo.ri.conf.PersistenceFactory;
 import uo.ri.persistance.foreman.WorkOrderGateway;
 
@@ -16,10 +17,14 @@ public class ViewWorkOrderDetail {
 		this.id = id;
 	}
 
-	public WorkOrderDto execute() {
+	public WorkOrderDto execute() throws BusinessException {
 		try (Connection c = Jdbc.createThreadConnection()) {
 			WorkOrderGateway wog = PersistenceFactory.getWorkOrderGateway();
 			wog.setConnection(c);
+			if (wog.findWorkOrderById(id) == null) {
+				c.rollback();
+				throw new BusinessException("the work orders does not exist");
+			}
 			return wog.findWorkOrderById(id);
 		} catch (SQLException e) {
 			throw new RuntimeException("Error de conexion");
