@@ -51,9 +51,8 @@ public class RegisterWorkOrder {
 			wog.registerNew(workOrder);
 			c.commit();
 
-//			WorkOrderDto forId = wog.findWorkOrderForId(workOrder.vehicleId, workOrder.description, workOrder.status);
-
-//			workOrder.id = forId.id;
+			/*WorkOrderDto forId = wog.findWorkOrderForId(workOrder.vehicleId, workOrder.description, workOrder.status);
+			workOrder.id = forId.id;*/
 
 			return workOrder;
 		} catch (SQLException e) {
